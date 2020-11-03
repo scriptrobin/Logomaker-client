@@ -171,6 +171,47 @@
         </div>
       </div>
 
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="smallFont">Shadow</label>
+            <label class="color-field-label" *ngIf="switchShadow">
+              <div class="color-field" style="transition: all 1s ease;">
+                <label class="smallFont" style="margin-right: 15px">Solid</label> 
+                <input ejs-colorpicker type="color" class="form-control" [enableRtl]="true" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
+              </div>
+            </label> 
+          </div> 
+          <!-- <div class="col-md-6">
+            <div class="custom-control custom-switch cur" style="float: right" (click)='openShadowProps(shadowSwitch.checked)'>
+              <input type="checkbox" #shadowSwitch class="custom-control-input" id="customSwitches">
+              <label class="custom-control-label" for="customSwitches"></label>
+            </div>
+          </div> -->
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow blur</label>    
+            <input type="range" class="custom-range" min="0" max="10" #shranger_1 (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.blur}}</label> 
+          </div>
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow horizontal position (px)</label>    
+            <input type="range" class="custom-range" min="0" max="100" #shranger_2 (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetX}}</label> 
+          </div>
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow vertical position (px)</label>    
+            <input type="range" class="custom-range" min="0" max="100" #shranger_3 (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetY}}</label> 
+          </div>
+        </div>
+      </div>
 
     </div>
     <div class="form-group no-padding" *ngIf="propstxt=='shapes'" >
@@ -218,7 +259,47 @@
           </div>
         </div>
       </div>
-      
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="smallFont">Shadow</label>
+            <label class="color-field-label" *ngIf="switchShadow">
+              <div class="color-field" style="transition: all 1s ease;">
+                <label class="smallFont" style="margin-right: 15px">Solid</label> 
+                <input ejs-colorpicker type="color" class="form-control" [enableRtl]="true" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
+              </div>
+            </label> 
+          </div> 
+          <!-- <div class="col-md-6"> -->
+            <!-- <div class="custom-control custom-switch cur" style="float: right" (click)='openShadowProps(shadowSwitch.checked)'>
+              <input type="checkbox" #shadowSwitch class="custom-control-input" id="customSwitches" [checked]="saveUsername" ng-true-value="'true'">
+              <label class="custom-control-label" for="customSwitches"></label>
+            </div> -->
+          <!-- </div> -->
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow blur</label>    
+            <input type="range" class="custom-range" min="0" max="10" #shranger_1 (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.blur}}</label> 
+          </div>
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow horizontal position (px)</label>    
+            <input type="range" class="custom-range" min="0" max="100" #shranger_2 (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetX}}</label> 
+          </div>
+          <div class="col-md-10" *ngIf="switchShadow">
+            <label class="smallFont" for="customRange3">Shadow vertical position (px)</label>    
+            <input type="range" class="custom-range" min="0" max="100" #shranger_3 (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
+            <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetY}}</label> 
+          </div>
+        </div>
+      </div>
     </div> 
   </div>
 </div>

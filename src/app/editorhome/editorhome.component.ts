@@ -28,6 +28,15 @@ export class EditorhomeComponent implements OnInit {
   borderwidValue = 0;
   opacityValue=1;
   selectedfontProps = '';
+  shadowon;
+  switchShadow=true;
+  shadowProps = {
+    'color': 'black',
+    'blur': 0,
+    'offsetX': 0,
+    'offsetY': 0,
+    'on': false
+  };
   public colorPickerArray = [{
       'color': '#E94A35',
       'selected': true
@@ -225,6 +234,42 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
+  changeShadow(value, type) { 
+    if(type == 'blur') {
+      this.shadowProps.blur = value;
+    }
+    else if(type == 'color') {
+      this.shadowProps.color = value.currentValue.hex;
+    }
+    else if(type == 'x') {
+      this.shadowProps.offsetX = value;
+    }
+    else if(type == 'y') {
+      this.shadowProps.offsetY = value;
+    } 
+    this.activeObj.set('shadow',  `${this.shadowProps.color} ${this.shadowProps.offsetX}px ${this.shadowProps.offsetY}px ${this.shadowProps.blur}px`); 
+    if(this.activeObj.jsonProperty.shadow) {
+      this.activeObj.jsonProperty.shadow = JSON.parse(JSON.stringify(this.shadowProps));
+    }
+    this.canvas.renderAll();
+  }
+  
+  openShadowProps(value){ 
+    if(value) {
+      this.switchShadow = true; 
+      this.shadowProps = this.activeObj.jsonProperty.shadow || this.shadowProps;
+      this.activeObj.set('shadow',  `${this.shadowProps.color} ${this.shadowProps.offsetX}px ${this.shadowProps.offsetY}px ${this.shadowProps.blur}px`); 
+      this.canvas.renderAll();
+    }
+    else {
+      this.switchShadow = false;
+      this.activeObj.set('shadow', 'black, 0px, 0px, 0px');
+      this.canvas.renderAll();
+    }
+
+
+  }
+
   addSimpleText() {
     var text = new fabric.Text('Add text', {
       left: this.canvas.getWidth()/2,
@@ -235,9 +280,18 @@ export class EditorhomeComponent implements OnInit {
       'originY': 'center'
     });
     text.jsonProperty = {
-      displayText: 'Add text'
+      displayText: 'Add text',
+      shadow : {
+        'color': 'black',
+        'blur': 0,
+        'offsetX': 0,
+        'offsetY': 0,
+        'on': false
+      }
     }
-    text.name = "simpleText";
+    text.name = "simpleText"; 
+    this.activeObj = text;
+    // this.changeShadow(null, null);
     this.canvas.add(text);
     this.setActiveObject(text);
   }
@@ -254,6 +308,16 @@ export class EditorhomeComponent implements OnInit {
       'originY': 'center'
     });
     circle.name = "shapes";
+    circle.jsonProperty = {};
+    circle.jsonProperty.shadow = {
+      'color': 'black',
+      'blur': 0,
+      'offsetX': 0,
+      'offsetY': 0,
+      'on': false
+    };
+    this.activeObj = circle;
+    // this.changeShadow(null, null);
     this.canvas.add(circle);
     this.setActiveObject(circle);
   }
@@ -271,13 +335,24 @@ export class EditorhomeComponent implements OnInit {
       strokeWidth: 0
     });
     rect.name = "shapes";
+    rect.jsonProperty = {};
+    rect.jsonProperty.shadow = {
+      'color': 'black',
+      'blur': 0,
+      'offsetX': 0,
+      'offsetY': 0,
+      'on': false
+    };
+    this.activeObj = rect; 
     this.canvas.add(rect);
     this.setActiveObject(rect);
   }
 
   onObjectSelected(ev, args) {
     this.activeObj = ev.selected[0];
-    this.propstxt = this.activeObj.name;
+    this.propstxt = this.activeObj.name; 
+    this.switchShadow =  this.activeObj.jsonProperty.shadow ? true :false; 
+    this.shadowProps = JSON.parse(JSON.stringify(this.activeObj.jsonProperty.shadow));
   }
 
   onObjectDeselected(ev, args) {
