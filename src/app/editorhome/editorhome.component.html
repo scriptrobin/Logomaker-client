@@ -1,0 +1,379 @@
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark navbar-header" style="background: #2b2b2b;">
+  <a class="navbar-brand" href="#">
+    <h4>Logomaker</h4>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">File</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Save To</a>
+      </li>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Dropdown
+        </a>
+        <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li> -->
+    </ul>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item">
+        <a class="nav-link waves-effect waves-light">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-effect waves-light">
+          <i class="fab fa-google-plus-g"></i>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="fas fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--/.Navbar -->
+<div class="rightBlock">
+  <div class="container">
+    <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
+      <label class="smallFont">Text to display</label>
+      <textarea class="form-control" type="text" [(ngModel)]="activeObj.jsonProperty.displayText"  placeholder=""></textarea> 
+      <div class="top-mspace tr"> 
+        <a class="btn10" (click)="updateSimpleText()"> <span>Update</span></a>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-8"> 
+              <label class="smallFont " >Font Family</label>
+              <div class="theme-dropdown" data-toggle="dropdown">Arial</div>
+                <span class="dropdown-icon">
+                  <i class="fa fa-angle-down fa-xs" aria-hidden="true"></i> 
+                </span> 
+              <ul class="dropdown-menu scrollable-menu" role="menu" >
+                  <li *ngFor="let option of fontFamily" (click)='applyFontStyle(option)'>
+                    <span style="margin-left: 10px;">{{option.family}}</span>
+                  </li> 
+              </ul> 
+          </div>
+          <div class="col-md-4">
+            <label class="smallFont">weight</label>
+            <div class="theme-dropdown" data-toggle="dropdown" style="width: 100%;">30</div>
+                <span class="dropdown-icon" style="right: 15px;">
+                  <i class="fa fa-angle-down fa-xs" aria-hidden="true"></i> 
+                </span> 
+              <ul class="dropdown-menu scrollable-menu" role="menu" >
+                  <li *ngFor="let option of wieghtOptions" >
+                    <span style="margin-left: 10px;">{{option}}</span>
+                  </li> 
+              </ul> 
+          </div>
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);">
+      <div class="form-group">
+        <div class="row"> 
+          <div class="col-md-6">
+            <label class="smallFont">Text color</label>
+            <label class="color-field-label">
+              <div class="color-field">
+                <label class="smallFont" style="margin-right: 15px">Solid</label> 
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+              </div>
+            </label> 
+          </div> 
+          <div class="col-md-6">
+            <label class="smallFont">Font size</label>
+            <label class="color-field-label">
+              <div class="color-field">
+                <label class="smallFont" style="margin-right: 15px">Solid</label> 
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+              </div>
+            </label> 
+          </div> 
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Opacity</label>    
+            <input type="range" class="custom-range" min="0" max="100" #opranger_1 (input)="changeOpacity(opranger_1.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{opacityValue}}</label> 
+          </div>
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group flex">
+              <ul class="font-styles list-inline flex">
+                  <li (click)="changefontStyles('bold')"><button class="button-simple " [ngClass]="{'active' : selectedfontProps== 'bold'}"><svg width="8" height="10" viewBox="0 0 8 10"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8 3c0-1.7-1.3-3-3-3H0v10h5c1.7 0 3-1.3 3-3 0-.8-.3-1.5-.8-2 .5-.5.8-1.2.8-2zM2 2h3c.6 0 1 .4 1 1s-.4 1-1 1H2V2zm3 6H2V6h3c.6 0 1 .4 1 1s-.4 1-1 1z"
+                                  fill="#212129" fill-rule="evenodd"></path>
+                          </svg></button></li>
+                  <li (click)="changefontStyles('italic')"><button class="button-simple" [ngClass]="{'active' : selectedfontProps== 'italic'}"><svg width="7" height="8" viewBox="0 0 7 8"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path fill="#212129" fill-rule="evenodd" d="M7 1V0H3v1h1.1L1.8 7H0v1h4V7H2.9l2.3-6"></path>
+                          </svg></button></li>
+                  <li (click)="changefontStyles('underline')"><button class="button-simple " [ngClass]="{'active' : selectedfontProps== 'underline'}"><svg width="8" height="10" viewBox="0 0 8 10"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 4V0h1v4c0 2.2-1.8 4-4 4S0 6.2 0 4V0h1v4c0 1.7 1.3 3 3 3s3-1.3 3-3zm-7 6V9h8v1H0z"
+                                  fill="#212129" fill-rule="evenodd"></path>
+                          </svg></button></li>
+              </ul>
+              <ul class="text-align list-inline flex" >
+                  <li (click)="changefontStyles('right')"><button class="button-simple  enabled" [ngClass]="{'active' : selectedfontProps== 'right'}"><svg width="8" height="7" viewBox="0 0 8 7"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M8 0H0v1h8V0zm0 6H0v1h8V6zM2 3h6v1H2V3z" fill="#212129" fill-rule="evenodd"></path>
+                          </svg></button></li>
+                  <li (click)="changefontStyles('center')"><button class="button-simple active enabled" [ngClass]="{'active' : selectedfontProps== 'center'}"><svg width="8" height="7" viewBox="0 0 8 7"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M8 0H0v1h8V0zm0 6H0v1h8V6zM1 3h6v1H1V3z" fill="#212129" fill-rule="evenodd"></path>
+                          </svg></button></li>
+                  <li (click)="changefontStyles('left')"><button class="button-simple  enabled" [ngClass]="{'active' : selectedfontProps== 'left'}"><svg width="8" height="7" viewBox="0 0 8 7"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M8 0H0v1h8V0zm0 6H0v1h8V6zM0 3h6v1H0V3z" fill="#212129" fill-rule="evenodd"></path>
+                          </svg></button></li>
+              </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="form-group no-padding" *ngIf="propstxt=='shapes'" >
+      <div class="row">
+        <div class="col-md-6">
+          <label class="smallFont">Fill color</label>
+          <label class="color-field-label">
+            <div class="color-field">
+              <label class="smallFont" style="margin-right: 15px">Solid</label> 
+              <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+            </div>
+          </label> 
+        </div> 
+        <div class="col-md-6">
+          <label class="smallFont">Border color</label>
+          <label class="color-field-label">
+            <div class="color-field">
+              <label class="smallFont" style="margin-right: 15px">Solid</label> 
+              <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="shapeBorderValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeBorderColor($event)"/>  
+            </div>
+          </label> 
+        </div> 
+      </div>   
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Border width</label>    
+            <input type="range" class="custom-range" min="0" max="100" #ranger (input)="changeBorderWidth(ranger.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{borderwidValue}}</label> 
+          </div>
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Opacity</label>    
+            <input type="range" class="custom-range" min="0" max="100" #opranger_1 (input)="changeOpacity(opranger_1.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{opacityValue}}</label> 
+          </div>
+        </div>
+      </div>
+      
+    </div> 
+  </div>
+</div>
+<div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <!-- sidebar-header  -->
+      <!-- <div class="sidebar-search">
+        <div>
+          <div class="input-group">
+            <input type="text" class="form-control search-menu" placeholder="Search...">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- sidebar-search  -->
+      <div class="sidebar-menu">
+        <ul>
+          <li class="sidebar-dropdown">
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a>Dashboard 1
+                    <span class="badge badge-pill badge-success">Pro</span>
+                  </a>
+                </li>
+                <li>
+                  <a>Dashboard 2</a>
+                </li>
+                <li>
+                  <a>Dashboard 3</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a>
+              <i class="fa fa-font"></i>
+              <span>Text</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a (click)="addSimpleText()">Simple text</a>
+                </li>
+                <li>
+                  <a>Orders</a>
+                </li>
+                <li>
+                  <a>Credit cart</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a>
+              <i class="fa fa-globe"></i>
+              <span>Icons</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a>Google maps</a>
+                </li>
+                <li>
+                  <a>Open street map</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li  class="sidebar-dropdown">
+            <a>
+              <i class="fa fa-circle"></i>
+              <span>Shapes</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li class="d-flex">
+                  <div class="list-shape" (click)="addCircle()" style="cursor: pointer;margin-left: 30px;">
+                    <svg viewBox="0 0 24 24" fill="#16c7ff" width="34px" height="34px"><path d="M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 Z M12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 Z"></path></svg>
+                  </div>
+                  <div class="list-shape" (click)="addRectangle()" style="cursor: pointer;">
+                    <svg viewBox="0 0 24 24" fill="#16c7ff" width="34px" height="34px"><path d="M5,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,19 C20,19.5522847 19.5522847,20 19,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,5 C4,4.44771525 4.44771525,4 5,4 Z M5,19 L19,19 L19,5 L5,5 L5,19 Z"></path></svg>
+                  </div>
+                  <div class="list-shape" style="cursor: pointer;">  
+                  </div>
+                </li> 
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a>
+              <i class="fa fa-calendar"></i>
+              <span>Background</span>
+            </a>
+            <div class="sidebar-submenu">
+              <div class="wrap">
+                <div class="head colorpicker-header">
+                  <span style="margin-top: 6px; left: 118px; position: fixed;">{{colorValue}}</span>
+                  <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="colorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeCanvasBackgroundbyPicker($event)"/> 
+                </div>
+                <ul name="colors" data-for="colors[]" class="colors">
+                    <li *ngFor="let colorPick of colorPickerArray" (click)='changeCanvasBackground(colorPick)'><div class="color" [ngStyle]="{'background-color': colorPick.color}"></div></li> 
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-tint"></i>
+              <span>Palette</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- sidebar-menu  -->
+    </div>
+    <!-- sidebar-content  -->
+    <div class="sidebar-footer">
+      <a>
+        <i class="fa fa-bell"></i>
+        <span class="badge badge-pill badge-warning notification">3</span>
+      </a>
+      <a>
+        <i class="fa fa-envelope"></i>
+        <span class="badge badge-pill badge-success notification">7</span>
+      </a>
+      <a>
+        <i class="fa fa-cog"></i>
+        <span class="badge-sonar"></span>
+      </a>
+      <a>
+        <i class="fa fa-power-off"></i>
+      </a>
+    </div>
+  </nav>
+  <!-- sidebar-wrapper  -->
+  <main class="page-content">
+    <!-- <div class="">  -->
+    <!-- <div class="">   -->
+    <div class="wsContainer" style="display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute;">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+    <!-- </div>  -->
+    <!-- </div> -->
+  </main>
+
+  <!-- page-content" -->
+</div>
