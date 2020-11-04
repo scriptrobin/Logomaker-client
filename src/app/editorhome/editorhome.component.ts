@@ -7,7 +7,7 @@ import {
   fabric
 } from 'fabric';
 import {
-  HttpClient
+  HttpClient,HttpHeaders
 } from "@angular/common/http";
 import {
   ColorPicker
@@ -18,6 +18,7 @@ import {
   styleUrls: ['./editorhome.component.css']
 })
 export class EditorhomeComponent implements OnInit {
+  
   activeObj;
   propstxt: string;
   displayText: string = "test";
@@ -30,6 +31,9 @@ export class EditorhomeComponent implements OnInit {
   selectedfontProps = '';
   shadowon;
   switchShadow=true;
+  leftBlockTransit=false;
+  iconSearchtxt='abstract';
+  svgUrl=[];
   shadowProps = {
     'color': 'black',
     'blur': 0,
@@ -185,7 +189,11 @@ export class EditorhomeComponent implements OnInit {
       __self.onObjectDeselected(ev, args);
     }); 
     this.getGoogleFonts();
+    // this.getIconfinderIcons();
+  }
 
+  loadIcons(){
+    this.leftBlockTransit = true;
   }
 
   changeCanvasBackgroundbyPicker(event) {
@@ -380,6 +388,54 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
+  getSearchIcons() { 
+    var headers = {
+      headers: new HttpHeaders({
+        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
+        'Content-Type':'text/plain; charset=utf-8'
+      })
+    };
+    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/icons/search?query="+this.iconSearchtxt+"&count=40", headers).subscribe((response:any)=> { 
+      
+      for(var i=0;i<response.icons.length;i++) { 
+        for(var j=0;j<response.icons[i].vector_sizes.length;j++) {
+          for(var k=0;k<response.icons[i].vector_sizes[j].formats.length;k++) { 
+            this.svgUrl[i] = {};
+            this.svgUrl[i].download_url = response.icons[i].vector_sizes[j].formats[j].download_url;
+          }
+          for(var j=0;j<response.icons[i].raster_sizes[5].formats.length;j++) { 
+            this.svgUrl[i].preview_url = response.icons[i].raster_sizes[5].formats[j].preview_url;
+          }
+        }
+      }
+
+      console.log(this.svgUrl)
+      /* for(var i=0;i<response.icons.length;i++) { 
+        for(var j=0;j<response.icons[i].raster_sizes[5].formats.length;j++) {
+            console.log(response.icons[i].raster_sizes[5].formats[j].preview_url);
+        }
+      }  */
+    });
+  }
+
+  getSvgIcon() {
+    var headers = {
+      headers: new HttpHeaders({
+        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
+        'Content-Type':'text/plain; charset=utf-8'
+      })
+    };
+    const requestOptions: Object = { 
+      responseType: 'text',
+      headers: headers
+    }
+    this.http.get<any>(this.svgUrl[0] , requestOptions).subscribe((response)=> {
+      console.log(response);
+    }, function(err){
+      console.log(err);
+    });
+  }
+
   getGoogleFonts() {
     this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBNhbaIulKGBHdPwBJPPsLEZcwcnTfTpaI').subscribe((responseData: any) => {
       this.fontFamily = responseData.items;
@@ -400,6 +456,6 @@ export class EditorhomeComponent implements OnInit {
 
       console.log(responseData);
     })
-  }
+  }  
 
 }

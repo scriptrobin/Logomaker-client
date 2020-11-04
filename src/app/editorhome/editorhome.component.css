@@ -109,6 +109,44 @@ body {
   border-top: 1px solid #3a3f48;
 }
 
+.leftBlock-list {
+  background: #2b2b2b;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  left: -260px;
+  height: calc(100% - 45px);
+  width: 260px;
+  z-index: 9999;
+  top: 45px;
+  border-top: 1px solid #3a3f48;
+} 
+
+.leftBlockactive{
+  transition: 0.5s;
+  left: 0;
+}
+
+.leftBlock-disable{
+  transition: 0.5s;
+  left: -260px;
+}
+
+.leftBlock-list-head{
+  position: fixed;
+  width: calc(100% - 81%); 
+  background: #2b2b2b; 
+  height: 67px;
+}
+
+
+/* .icon-listing {
+  display: grid; 
+	grid-template-columns: [byline-start] 1fr [byline-end content-start] 1fr [something-start] 1fr [something-end content-end aside-start] 1fr [aside-end];
+} */
+/* .icon-listing li:nth-of-type(1) { 
+	grid-column: content-start / span 2;
+} */
 /*----------------page-wrapper----------------*/
 
 .page-wrapper {
@@ -365,6 +403,29 @@ body {
   right: 17px;
 }
 
+.sidebar-icon-listing{
+  text-align: center;
+  vertical-align: middle;
+  padding: 3px;
+  top: 10px;
+  border: 1px solid #4f4f4f;
+  left:0px;
+  width: 67px;
+  background-color: #1d1d1d !important;
+  margin-right: 5px;
+  
+  /* z-index: 2;  */
+}
+
+.sidebar-icon-listing:hover{
+  /* transform: scale(1.1);  */
+  transition: all 0.1s ease;
+  /* background-color: #1d1d1d !important; */
+}
+
+.sidebar-icon-listing img{
+  width:45px;
+} 
 /*--------------------------side-footer------------------------------*/
 
 .sidebar-footer {
@@ -961,3 +1022,37 @@ select {
 .text-align button.active, .text-align button:hover {
   background: #4f4f4f;
 }
+
+
+.searchform div {
+  height: 26px; 
+  }
+  
+  .searchboxwrapper {
+    position: relative;  
+    padding: 5px; 
+  }
+  
+  .searchbox {
+    border: 1px solid #4f4f4f;
+    border-radius: 50px;
+    outline: none;
+    font: 13px 'Montserrat', sans-serif;
+    color: white;
+    width: 176px;
+    height: 27px;
+    background: transparent;
+    padding-left: 10px;
+  }
+  
+  .searchsubmit {  
+    border-radius: 50px;
+    border: 1px solid #4f4f4f !important;
+    font-size: 11px !important;
+    left: 7px;
+    color: #16c7ff !important;
+    background-color: #34363c !important;
+  }
+
+  
+  

@@ -344,6 +344,23 @@
           </li>
           <li class="sidebar-dropdown">
             <a>
+              <i class="fa fa-calendar"></i>
+              <span>Background</span>
+            </a>
+            <div class="sidebar-submenu">
+              <div class="wrap">
+                <div class="head colorpicker-header">
+                  <span style="margin-top: 6px; left: 118px; position: fixed;">{{colorValue}}</span>
+                  <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="colorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeCanvasBackgroundbyPicker($event)"/> 
+                </div>
+                <ul name="colors" data-for="colors[]" class="colors">
+                    <li *ngFor="let colorPick of colorPickerArray" (click)='changeCanvasBackground(colorPick)'><div class="color" [ngStyle]="{'background-color': colorPick.color}"></div></li> 
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a>
               <i class="fa fa-font"></i>
               <span>Text</span>
             </a>
@@ -361,22 +378,7 @@
               </ul>
             </div>
           </li>
-          <li class="sidebar-dropdown">
-            <a>
-              <i class="fa fa-globe"></i>
-              <span>Icons</span>
-            </a>
-            <div class="sidebar-submenu">
-              <ul>
-                <li>
-                  <a>Google maps</a>
-                </li>
-                <li>
-                  <a>Open street map</a>
-                </li>
-              </ul>
-            </div>
-          </li>
+          
           <li  class="sidebar-dropdown">
             <a>
               <i class="fa fa-circle"></i>
@@ -397,22 +399,11 @@
               </ul>
             </div>
           </li>
-          <li class="sidebar-dropdown">
-            <a>
-              <i class="fa fa-calendar"></i>
-              <span>Background</span>
-            </a>
-            <div class="sidebar-submenu">
-              <div class="wrap">
-                <div class="head colorpicker-header">
-                  <span style="margin-top: 6px; left: 118px; position: fixed;">{{colorValue}}</span>
-                  <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="colorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeCanvasBackgroundbyPicker($event)"/> 
-                </div>
-                <ul name="colors" data-for="colors[]" class="colors">
-                    <li *ngFor="let colorPick of colorPickerArray" (click)='changeCanvasBackground(colorPick)'><div class="color" [ngStyle]="{'background-color': colorPick.color}"></div></li> 
-                </ul>
-              </div>
-            </div>
+          <li>
+            <a (click)='loadIcons()'>
+              <i class="fa fa-globe"></i>
+              <span>Icons</span>
+            </a> 
           </li>
           <li>
             <a>
@@ -443,6 +434,31 @@
       </a>
     </div>
   </nav>
+  <div class="leftBlock-list" id='slide' [ngClass]='{"leftBlockactive" : leftBlockTransit, "leftBlock-disable": !leftBlockTransit}'>
+    <div class="leftBlock-list-head">
+      <div class='cur'(click)='leftBlockTransit=false'>
+        <label class="cur"><svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M14.8597212,8.14512634 C15.0549834,8.34038849 15.0549834,8.65697098 14.8597212,8.85223312 L11.2137854,12.5 L14.8597212,16.1465919 C15.0549834,16.3418541 15.0549834,16.6584366 14.8597212,16.8536987 C14.6644591,17.0489609 14.3478766,17.0489609 14.1526144,16.8536987 L9.79957183,12.5 L14.1526144,8.14512634 C14.3478766,7.9498642 14.6644591,7.9498642 14.8597212,8.14512634 Z"></path></svg></label>
+        <label class="smallFont cur" style="margin-left: 15px;vertical-align: middle;" >Add an Element</label> 
+      </div>
+      <div >
+        <form role="search" method="get" id="searchform" class="searchform" action="#" _lpchecked="1">
+          <div class="searchboxwrapper"> 
+          <input class="searchbox" type="text" placeholder="Search for" [(ngModel)]='iconSearchtxt' [ngModelOptions]="{standalone: true}">  
+          <a class="btn10 searchsubmit" (click)='getSearchIcons()'> <span>Search</span></a> 
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div style="margin-top:74px"> 
+        <ul class="icon-listing" style="display: flex; flex-wrap: wrap;"> 
+          <li class="" *ngFor="let option of svgUrl" style="list-style: none;margin-bottom: 3px;">
+            <div class="sidebar-icon-listing cur"><img src='{{option.preview_url}}'/></div> 
+          </li>
+        </ul> 
+      </div>
+    </div>
+  </div>
   <!-- sidebar-wrapper  -->
   <main class="page-content">
     <!-- <div class="">  -->
