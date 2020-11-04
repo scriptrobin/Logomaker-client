@@ -71,7 +71,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Logomaker-client:build"
+            "browserTarget": "Logomaker-client:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

@@ -452,7 +452,7 @@
     <div class="row">
       <div style="margin-top:74px"> 
         <ul class="icon-listing" style="display: flex; flex-wrap: wrap;"> 
-          <li class="" *ngFor="let option of svgUrl" style="list-style: none;margin-bottom: 3px;">
+          <li class="" *ngFor="let option of svgUrl" style="list-style: none;margin-bottom: 3px;" (click)='getSvgIcon(option)'>
             <div class="sidebar-icon-listing cur"><img src='{{option.preview_url}}'/></div> 
           </li>
         </ul> 

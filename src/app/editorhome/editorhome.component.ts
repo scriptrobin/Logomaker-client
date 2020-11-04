@@ -418,19 +418,40 @@ export class EditorhomeComponent implements OnInit {
     });
   }
 
-  getSvgIcon() {
-    var headers = {
+  getSvgIcon(data) { 
+    let HTTPOptions:Object = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
-        'Content-Type':'text/plain; charset=utf-8'
-      })
-    };
-    const requestOptions: Object = { 
-      responseType: 'text',
-      headers: headers
-    }
-    this.http.get<any>(this.svgUrl[0] , requestOptions).subscribe((response)=> {
-      console.log(response);
+        'authorization': 'Bearer jGamcBUVyWEKIf679UMHPYfQk3sfcysHwfd0YwBY6Dfy5AzTB9W9XSPEY4RavCAP',
+        'Access-Control-Allow-Origin': 'http://localhost:4200' ,
+        "Access-Control-Allow-Methods":"GET, POST"
+      }),
+      responseType: 'text'
+   }
+    var iconSvgUrl = "https://cors-anywhere.herokuapp.com/"+data.download_url;
+    // var iconSvgUrl = data.download_url;
+    var __self = this;
+    this.http.get<any>(iconSvgUrl, HTTPOptions).subscribe((response)=> {
+      fabric.loadSVGFromString(response, function(objects, options) {
+        var obj = fabric.util.groupSVGElements(objects, options);
+        obj.left = __self.canvas.getWidth()/2;
+        obj.top = __self.canvas.getHeight()/2;
+        obj.originX = 'center';
+        obj.originY = 'center';
+        obj.scaleX = 0.5;
+        obj.scaleY = 0.5;
+        // obj.width = 50;
+        // obj.height = 50;
+        obj.jsonProperty = {
+          shadow : {
+            'color': 'black',
+            'blur': 0,
+            'offsetX': 0,
+            'offsetY': 0,
+            'on': false
+          }
+        }
+        __self.canvas.add(obj).renderAll();
+      });
     }, function(err){
       console.log(err);
     });
