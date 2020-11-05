@@ -191,11 +191,12 @@ export class EditorhomeComponent implements OnInit {
       __self.onObjectDeselected(ev, args);
     }); 
     this.getGoogleFonts();
+    this.getSearchIcons(null);
     // this.getIconfinderIcons();
   }
 
   loadIcons(){
-    this.leftBlockTransit = true;
+    this.leftBlockTransit = true; 
   }
 
   changeCanvasBackgroundbyPicker(event) {
@@ -263,6 +264,65 @@ export class EditorhomeComponent implements OnInit {
     }
     this.canvas.renderAll();
   }
+
+  applyFlipObj(type) {
+    this.activeObj.toggle(type);
+    this.canvas.renderAll();
+  }
+
+  doObjAction(type) {
+    if(type == 'delete') { 
+      this.canvas.remove(this.activeObj);
+    }
+    else if(type == 'duplicate') {
+      this.duplicateObject();
+    }
+    else if(type == 'forward') {
+      this.canvas.bringToFront(this.activeObj);
+    }
+    else if(type == 'backward') {
+      this.canvas.sendToBack(this.activeObj);
+    } 
+    
+    
+  }
+
+  duplicateObject() {
+    var _clipboard
+    var _self = this;
+    var activeObj = this.canvas.getActiveObject();
+    var _name = activeObj.name;
+    var cloneJSON = JSON.parse(JSON.stringify(this.activeObj.jsonProperty));
+    activeObj.clone(function(cloned) {
+     _clipboard = cloned;
+      _clipboard.clone(function(clonedObj) {
+        _self.canvas.discardActiveObject();
+        clonedObj.set({
+          left: clonedObj.left + 10,
+          top: clonedObj.top + 10,
+          evented: true,
+        });
+        clonedObj.jsonProperty = cloneJSON;
+        clonedObj.name = _name;
+        if (clonedObj.type === 'activeSelection') {
+          // active selection needs a reference to the canvas.
+          clonedObj.canvas = _self.canvas;
+          clonedObj.forEachObject(function(obj) {
+            _self.canvas.add(obj);
+          });
+          // this should solve the unselectability
+          clonedObj.setCoords();
+        } else {
+          _self.canvas.add(clonedObj);
+        }
+        _clipboard.top += 10;
+        _clipboard.left += 10;
+        _self.canvas.setActiveObject(clonedObj);
+        _self.canvas.requestRenderAll();
+      });
+    }); 
+  }
+  
   
   openShadowProps(value){ 
     if(value) {
@@ -447,10 +507,17 @@ export class EditorhomeComponent implements OnInit {
         obj.top = __self.canvas.getHeight()/2;
         obj.originX = 'center';
         obj.originY = 'center';
-        obj.scaleX = 0.5;
-        obj.scaleY = 0.5;
-        // obj.width = 50;
-        // obj.height = 50;
+        obj.name = "shapes";
+        var widRatio = (__self.canvas.getWidth() -50) /obj.width;
+        var heiRatio = (__self.canvas.getHeight() - 50 )/obj.height;
+        if(widRatio  < heiRatio) {
+          obj.scaleX = widRatio;
+          obj.scaleY = widRatio;
+        }
+        else {
+          obj.scaleX = heiRatio;
+          obj.scaleY = heiRatio;
+        }
         obj.jsonProperty = {
           shadow : {
             'color': 'black',
@@ -461,6 +528,8 @@ export class EditorhomeComponent implements OnInit {
           }
         }
         __self.canvas.add(obj).renderAll();
+        obj.setCoords();
+        __self.setActiveObject(obj);
       });
     }, function(err){
       console.log(err);

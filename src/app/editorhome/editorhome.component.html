@@ -8,17 +8,19 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home
-          <span class="sr-only">(current)</span>
-        </a>
+    <ul class="navbar-nav mr-auto" style="margin-left: 500px;">
+      <li class="nav-item cur" style="color: white; padding: 6px;" (click)='doObjAction("forward")'> 
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" class="_1Krqa"><path d="M15,5 C15.5522847,5 16,5.44771525 16,6 L16,9 L19,9 C19.5522847,9 20,9.44771525 20,10 L20,19 C20,19.5522847 19.5522847,20 19,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,16 L6,16 C5.44771525,16 5,15.5522847 5,15 L5,6 C5,5.44771525 5.44771525,5 6,5 L15,5 Z M19,10.706 L16,13.706 L16,15 C16,15.5522847 15.5522847,16 15,16 L13.706,16 L10.706,19 L14.292,19 L19,14.292 L19,10.706 Z M19,15.706 L15.706,19 L19,19 L19,15.706 Z M12.291,16 L10,16 L10,18.292 L12.291,16 Z M15,6 L6,6 L6,15 L15,15 L15,6 Z M16,12.291 L18.292,10 L16,10 L16,12.291 Z" fill-rule="evenodd"></path></svg>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">File</a>
+      <li class="nav-item cur" style="color: white; padding: 6px;" (click)='doObjAction("backward")'> 
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" class="_1Krqa"><path d="M15,5 C15.5522847,5 16,5.44771525 16,6 L16,9 L19,9 C19.5522847,9 20,9.44771525 20,10 L20,19 C20,19.5522847 19.5522847,20 19,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,16 L6,16 C5.44771525,16 5,15.5522847 5,15 L5,6 C5,5.44771525 5.44771525,5 6,5 L15,5 Z M19,10 L16,10 L16,15 C16,15.5522847 15.5522847,16 15,16 L10,16 L10,19 L19,19 L19,10 Z M15,6.706 L6.706,15 L10.292,15 L15,10.292 L15,6.706 Z M15,11.706 L11.706,15 L15,15 L15,11.706 Z M14.292,6 L10.706,6 L6,10.706 L6,14.292 L14.292,6 Z M9.292,6 L6,6 L6,9.292 L9.292,6 Z" fill-rule="evenodd"></path></svg>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Save To</a>
+      <li class="nav-item cur" style="color: white; padding: 6px;" (click)='doObjAction("duplicate")'> 
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" class="_1Krqa"><path d="M19,5 C19.5522847,5 20,5.44771525 20,6 L20,16 C20,16.5522847 19.5522847,17 19,17 L17,17 L17,19 C17,19.5522847 16.5522847,20 16,20 L6,20 C5.44771525,20 5,19.5522847 5,19 L5,9 C5,8.44771525 5.44771525,8 6,8 L8,8 L8,6 C8,5.44771525 8.44771525,5 9,5 L19,5 Z M8,9 L6,9 L6,19 L16,19 L16,17 L9,17 C8.44771525,17 8,16.5522847 8,16 L8,9 Z M19,6 L9,6 L9,16 L19,16 L19,6 Z"></path></svg>
+      </li>
+      <li class="nav-item cur" style="color: white; padding: 6px;" (click)='doObjAction("delete")'> 
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" class="_26goU _1Krqa"><path d="M17,17 C17,18.6568542 15.6568542,20 14,20 L9,20 C7.34314575,20 6,18.6568542 6,17 L6,7 L5,7 L5,6 L18,6 L18,7 L17,7 L17,17 Z M9,9 L10,9 L10,16 L9,16 L9,9 Z M11,9 L12,9 L12,16 L11,16 L11,9 Z M13,9 L14,9 L14,16 L13,16 L13,9 Z M7,17 C7,18.1045695 7.8954305,19 9,19 L14,19 C15.1045695,19 16,18.1045695 16,17 L16,7 L7,7 L7,17 Z M13,6 L13,5 L10,5 L10,6 L9,6 L9,5 C9,4.44771525 9.44771525,4 10,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,6 L13,6 Z"></path>
+          </svg>
       </li>
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
@@ -189,6 +191,7 @@
               <label class="custom-control-label" for="customSwitches"></label>
             </div>
           </div> -->
+          
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow blur</label>    
             <input type="range" class="custom-range" min="0" max="10" #shranger_1 (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
@@ -257,6 +260,22 @@
           <div class="col-md-2" style="line-height: 65px;">
             <label class="smallFont" style="margin-right: 15px">{{opacityValue}}</label> 
           </div>
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-12">
+            <label class="smallFont" for="customRange3">Flip</label>    
+            <div  style="color: white;padding: 5px;">
+              <div class="cur" style="margin-left: 10px;position: absolute;" (click)='applyFlipObj("flipX")'>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M17,9 L17,16.015966 C17,16.5574815 17.4523405,17.007983 18.0059191,17.007983 L20.9940809,17.007983 C21.5578453,17.007983 22,16.567143 22,16.015966 L22,9 C22,8.4584845 21.5476595,8.00798298 20.9940809,8.00798298 L18.0059191,8.00798298 C17.4421547,8.00798298 17,8.44882302 17,9 Z M16,9 C16,7.89983938 16.8865548,7.00798298 18.0059191,7.00798298 L20.9940809,7.00798298 C22.1019194,7.00798298 23,7.90815915 23,9 L23,16.015966 C23,17.1161266 22.1134452,18.007983 20.9940809,18.007983 L18.0059191,18.007983 C16.8980806,18.007983 16,17.1078068 16,16.015966 L16,9 Z M1,9 C1,7.89983938 1.88655484,7.00798298 3.00591905,7.00798298 L5.99408095,7.00798298 C7.10191945,7.00798298 8,7.90815915 8,9 L8,16.015966 C8,17.1161266 7.11344516,18.007983 5.99408095,18.007983 L3.00591905,18.007983 C1.89808055,18.007983 1,17.1078068 1,16.015966 L1,9 Z M11.5,2 L12.5,2 L12.5,22 L11.5,22 L11.5,2 Z"></path></svg>
+              </div>
+              <div class="cur" style="margin-left: 60px;" (click)='applyFlipObj("flipY")'>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M9,7.00798298 L16.015966,7.00798298 C16.5574815,7.00798298 17.007983,6.55564244 17.007983,6.00206393 L17.007983,3.01390204 C17.007983,2.45013772 16.567143,2.00798298 16.015966,2.00798298 L9,2.00798298 C8.4584845,2.00798298 8.00798298,2.46032352 8.00798298,3.01390204 L8.00798298,6.00206393 C8.00798298,6.56582825 8.44882302,7.00798298 9,7.00798298 Z M9,8.00798298 C7.89983938,8.00798298 7.00798298,7.12142815 7.00798298,6.00206393 L7.00798298,3.01390204 C7.00798298,1.90606354 7.90815915,1.00798298 9,1.00798298 L16.015966,1.00798298 C17.1161266,1.00798298 18.007983,1.89453782 18.007983,3.01390204 L18.007983,6.00206393 C18.007983,7.10990243 17.1078068,8.00798298 16.015966,8.00798298 L9,8.00798298 Z M8.99201702,23.0059191 C7.8918564,23.0059191 7,22.1193642 7,21 L7,18.0118381 C7,16.9039996 7.90017617,16.0059191 8.99201702,16.0059191 L16.007983,16.0059191 C17.1081436,16.0059191 18,16.8924739 18,18.0118381 L18,21 C18,22.1078385 17.0998238,23.0059191 16.007983,23.0059191 L8.99201702,23.0059191 Z M2,12.5 L2,11.5 L22,11.5 L22,12.5 L2,12.5 Z"></path></svg>
+              </div>
+            </div>
+          </div> 
         </div>
       </div>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
@@ -454,7 +473,9 @@
       <div > 
         <ul class="" style="display:flex; flex-wrap:wrap;padding: 17px;"> 
           <li class="" *ngFor="let option of svgUrl" style="list-style: none;margin-bottom: 3px;" (click)='getSvgIcon(option)'>
-            <div class="sidebar-icon-listing cur" *ngIf='option'><img src='{{option.preview_url}}'/></div> 
+            <div class="sidebar-icon-listing cur" *ngIf='option'>
+              <img src='{{option.preview_url}}'/> 
+            </div> 
           </li>
         </ul>
       </div>
