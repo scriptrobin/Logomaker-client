@@ -443,20 +443,25 @@
       <div >
         <form role="search" method="get" id="searchform" class="searchform" action="#" _lpchecked="1">
           <div class="searchboxwrapper"> 
-          <input class="searchbox" type="text" placeholder="Search for" [(ngModel)]='iconSearchtxt' [ngModelOptions]="{standalone: true}">  
-          <a class="btn10 searchsubmit" (click)='getSearchIcons()'> <span>Search</span></a> 
+            <input class="searchbox" type="text" placeholder="Search for" [(ngModel)]='iconSearchtxt' [ngModelOptions]="{standalone: true}">  
+            <a class="btn10 searchsubmit" *ngIf="!iconsLoader" (click)='getSearchIcons()'> <span>Search</span></a> 
+            <a class="btn10 searchsubmit" *ngIf="iconsLoader"><span><i class="fas fa-spinner fa-spin"></i></span></a> 
           </div>
         </form>
       </div>
     </div>
-    <div class="row">
-      <div style="margin-top:74px"> 
-        <ul class="icon-listing" style="display: flex; flex-wrap: wrap;"> 
+    <div class="icon-listing">
+      <div > 
+        <ul class="" style="display:flex; flex-wrap:wrap;padding: 17px;"> 
           <li class="" *ngFor="let option of svgUrl" style="list-style: none;margin-bottom: 3px;" (click)='getSvgIcon(option)'>
-            <div class="sidebar-icon-listing cur"><img src='{{option.preview_url}}'/></div> 
+            <div class="sidebar-icon-listing cur" *ngIf='option'><img src='{{option.preview_url}}'/></div> 
           </li>
-        </ul> 
+        </ul>
       </div>
+    </div>
+    <div class="leftBlock-list-footer">
+      <a class="loadmore-Btn"  *ngIf="!iconsLoader" (click)='getSearchIcons("loadmore")'><span>Load more</span></a> 
+      <a class="loadmore-Btn" *ngIf="iconsLoader"><span><i class="fas fa-spinner fa-spin"></i></span></a> 
     </div>
   </div>
   <!-- sidebar-wrapper  -->

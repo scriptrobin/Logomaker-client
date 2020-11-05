@@ -34,6 +34,8 @@ export class EditorhomeComponent implements OnInit {
   leftBlockTransit=false;
   iconSearchtxt='abstract';
   svgUrl=[];
+  iconsLoader=false;
+  loadmoreCount = 40;
   shadowProps = {
     'color': 'black',
     'blur': 0,
@@ -388,33 +390,42 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
-  getSearchIcons() { 
+  getSearchIcons(type) { 
     var headers = {
       headers: new HttpHeaders({
         'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
         'Content-Type':'text/plain; charset=utf-8'
       })
     };
-    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/icons/search?query="+this.iconSearchtxt+"&count=40", headers).subscribe((response:any)=> { 
-      
+    this.iconsLoader = true;
+    
+    if(type == 'loadmore') {
+      this.loadmoreCount+=30;
+    }else {
+      this.svgUrl = [];
+      this.loadmoreCount = 40;
+    }
+    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/icons/search?query="+this.iconSearchtxt+"&count="+this.loadmoreCount+"", headers).subscribe((response:any)=> { 
+      this.iconsLoader = false;
       for(var i=0;i<response.icons.length;i++) { 
-        for(var j=0;j<response.icons[i].vector_sizes.length;j++) {
-          for(var k=0;k<response.icons[i].vector_sizes[j].formats.length;k++) { 
-            this.svgUrl[i] = {};
-            this.svgUrl[i].download_url = response.icons[i].vector_sizes[j].formats[j].download_url;
+        if(response.icons[i].vector_sizes) {
+          for(var j=0;j<response.icons[i].vector_sizes.length;j++) {
+            for(var k=0;k<response.icons[i].vector_sizes[j].formats.length;k++) { 
+              this.svgUrl[i] = {'download_url': '', 'preview_url' : ''};
+              if(response.icons[i].vector_sizes[j].formats[j].download_url) {
+                this.svgUrl[i].download_url = response.icons[i].vector_sizes[j].formats[j].download_url;
+              }
+            }
           }
+        }
+        if(response.icons[i].raster_sizes[5]) {
           for(var j=0;j<response.icons[i].raster_sizes[5].formats.length;j++) { 
-            this.svgUrl[i].preview_url = response.icons[i].raster_sizes[5].formats[j].preview_url;
-          }
+            if(response.icons[i].raster_sizes[5].formats[j].preview_url) {
+              this.svgUrl[i].preview_url = response.icons[i].raster_sizes[5].formats[j].preview_url;
+            }
+          } 
         }
       }
-
-      console.log(this.svgUrl)
-      /* for(var i=0;i<response.icons.length;i++) { 
-        for(var j=0;j<response.icons[i].raster_sizes[5].formats.length;j++) {
-            console.log(response.icons[i].raster_sizes[5].formats[j].preview_url);
-        }
-      }  */
     });
   }
 
@@ -427,8 +438,7 @@ export class EditorhomeComponent implements OnInit {
       }),
       responseType: 'text'
    }
-    var iconSvgUrl = "https://cors-anywhere.herokuapp.com/"+data.download_url;
-    // var iconSvgUrl = data.download_url;
+    var iconSvgUrl = "https://cors-anywhere.herokuapp.com/"+data.download_url; 
     var __self = this;
     this.http.get<any>(iconSvgUrl, HTTPOptions).subscribe((response)=> {
       fabric.loadSVGFromString(response, function(objects, options) {
