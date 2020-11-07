@@ -12,6 +12,8 @@ import {
 import {
   ColorPicker
 } from '@syncfusion/ej2-inputs';
+import { Router } from '@angular/router';
+import {UserService} from '../shared/user.service';
 @Component({
   selector: 'app-editorhome',
   templateUrl: './editorhome.component.html',
@@ -127,7 +129,7 @@ export class EditorhomeComponent implements OnInit {
   private wieghtOptions: string[] = ["10", "20", "30"];
   selectedWeight = "10";
   selectedFont = "Georgia";
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
 
   }
 
@@ -193,6 +195,11 @@ export class EditorhomeComponent implements OnInit {
     this.getGoogleFonts();
     this.getSearchIcons(null);
     // this.getIconfinderIcons();
+  }
+
+  userLogout() {
+    this.userService.deleteToken();
+    this.router.navigateByUrl('/home');
   }
 
   loadIcons(){
