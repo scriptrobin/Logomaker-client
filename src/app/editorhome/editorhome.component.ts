@@ -281,7 +281,7 @@ export class EditorhomeComponent implements OnInit {
       this.canvas.bringToFront(this.activeObj);
     }
     else if(type == 'backward') {
-      this.canvas.sendToBack(this.activeObj);
+      this.canvas.sendToBackD(this.activeObj);
     } 
     
     
@@ -454,7 +454,8 @@ export class EditorhomeComponent implements OnInit {
     var headers = {
       headers: new HttpHeaders({
         'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
-        'Content-Type':'text/plain; charset=utf-8'
+        'Content-Type':'text/plain; charset=utf-8',
+        'noAuth': "true"
       })
     };
     this.iconsLoader = true;

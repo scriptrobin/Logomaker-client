@@ -9,7 +9,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DropdownModule } from 'angular-bootstrap-md';
 import { EditorhomeComponent } from './editorhome/editorhome.component';
 import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import {AuthGuard} from './auth/auth.guard';
+import {AuthInterceptor} from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,11 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule,
     DropdownModule.forRoot()
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

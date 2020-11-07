@@ -7,7 +7,7 @@ body{
   position:relative;
   margin: 70px auto;
   width: 500px;
-  height: 380px;
+  /* height: 380px; */
   background-color:#f9f9f9;
   padding: 10px;
   border-radius: 3px;
@@ -86,6 +86,7 @@ box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
   margin-bottom: 10px;
 }
 .u-form-group input[type="email"],
+.u-form-group input[type="text"],
 .u-form-group input[type="password"]{
   width: calc(97% - 22px);
   height:45px;
@@ -121,3 +122,10 @@ box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
   color: #888;
   font-size: 0.75rem;
 }
+
+.alertmsg{
+  font-family: sans-serif;
+  font-size: 11px;
+  color: red;
+  margin: 0px;
+} 

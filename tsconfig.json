@@ -6,6 +6,8 @@
 */
 {
   "files": [],
+  "experimentalDecorators": true,
+  "allowJs": true,
   "references": [
     {
       "path": "./tsconfig.app.json"
