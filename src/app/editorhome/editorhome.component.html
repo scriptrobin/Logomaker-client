@@ -8,7 +8,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-    <ul class="navbar-nav mr-auto" style="margin-left: 500px;">
+    <ul class="navbar-nav mr-auto" style="margin-left: 500px;" *ngIf="activeObj">
       <li class="nav-item cur" style="color: white; padding: 6px;" (click)='doObjAction("forward")'> 
         <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" class="_1Krqa"><path d="M15,5 C15.5522847,5 16,5.44771525 16,6 L16,9 L19,9 C19.5522847,9 20,9.44771525 20,10 L20,19 C20,19.5522847 19.5522847,20 19,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,16 L6,16 C5.44771525,16 5,15.5522847 5,15 L5,6 C5,5.44771525 5.44771525,5 6,5 L15,5 Z M19,10.706 L16,13.706 L16,15 C16,15.5522847 15.5522847,16 15,16 L13.706,16 L10.706,19 L14.292,19 L19,14.292 L19,10.706 Z M19,15.706 L15.706,19 L19,19 L19,15.706 Z M12.291,16 L10,16 L10,18.292 L12.291,16 Z M15,6 L6,6 L6,15 L15,15 L15,6 Z M16,12.291 L18.292,10 L16,10 L16,12.291 Z" fill-rule="evenodd"></path></svg>
       </li>
@@ -34,36 +34,42 @@
       </li> -->
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link waves-effect waves-light">
           <i class="fab fa-twitter"></i>
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link waves-effect waves-light">
-          <i class="fab fa-google-plus-g"></i>
+      </li> -->
+      <li class="nav-item" style="padding-right: 10px;">
+        <a class="nav-link waves-effect waves-light btn10 exportBtn dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+          <span>Export</span>
         </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          <i class="fas fa-user"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-          <a class="dropdown-item" (click)="userLogout()">Logout</a> 
+        <div class="dropdown-menu dropdown-menu-right dropdown-default exporthover" aria-labelledby="navbarDropdownMenuLink-333" style="color: white;
+        background-color: #000000 !important;text-align: center;">
+          <a class="dropdown-item" (click)="exportImage('png')">PNG</a> 
+          <a class="dropdown-item" (click)="exportImage('jpeg')">JPEG</a> 
         </div>
       </li>
+      <!-- <li class="nav-item dropdown"> -->
+        <!-- <a class="nav-link dropdown-toggle logoutBtn" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="fas fa-user"></i>
+        </a> -->
+        <!-- <a class="nav-link waves-effect waves-light btn10 exportBtn"> <span>Logout</span></a> -->
+        <!-- <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" (click)="userLogout()">Logout</a> 
+        </div> -->
+      <!-- </li> -->
     </ul>
   </div>
 </nav>
-<!--/.Navbar -->
+<!--/.Navbar --> 
 <div class="rightBlock">
   <div class="container">
     <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
       <label class="smallFont">Text to display</label>
       <textarea class="form-control" type="text" [(ngModel)]="activeObj.jsonProperty.displayText"  placeholder=""></textarea> 
       <div class="top-mspace tr"> 
-        <a class="btn10" (click)="updateSimpleText()"> <span>Update</span></a>
+        <a class="btn10" (click)="updateSimpleText()"> <span>Update</span></a> 
       </div>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);">
       <div class="form-group">
@@ -102,7 +108,7 @@
             <label class="color-field-label">
               <div class="color-field">
                 <label class="smallFont" style="margin-right: 15px">Solid</label> 
-                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
               </div>
             </label> 
           </div> 
@@ -111,7 +117,7 @@
             <label class="color-field-label">
               <div class="color-field">
                 <label class="smallFont" style="margin-right: 15px">Solid</label> 
-                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
               </div>
             </label> 
           </div> 
@@ -121,8 +127,20 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Font size</label>    
+            <input type="range" class="custom-range" min="0" max="500" #fsranger [(ngModel)]="fontsizeValue" (input)="changeFontSize(fsranger.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{fontsizeValue}}</label> 
+          </div>
+        </div>
+      </div>
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-10">
             <label class="smallFont" for="customRange3">Opacity</label>    
-            <input type="range" class="custom-range" min="0" max="100" #opranger_1 (input)="changeOpacity(opranger_1.value)" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #opranger_1 [(ngModel)]="opacityValue" (input)="changeOpacity(opranger_1.value)" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;">
             <label class="smallFont" style="margin-right: 15px">{{opacityValue}}</label> 
@@ -170,7 +188,25 @@
           </div>
         </div>
       </div>
-
+      <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Line height</label>    
+            <input type="range" class="custom-range" min="1" max="10" #lhranger [(ngModel)]="lineHeightValue" (input)="changelineHeight(lhranger.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{lineHeightValue}}</label> 
+          </div>
+          <div class="col-md-10">
+            <label class="smallFont" for="customRange3">Character space</label>    
+            <input type="range" class="custom-range" min="1" max="1000" #csranger [(ngModel)]="charSpaceValue" (input)="changecharSpace(csranger.value)" id="customRange1">
+          </div> 
+          <div class="col-md-2" style="line-height: 65px;">
+            <label class="smallFont" style="margin-right: 15px">{{charSpaceValue}}</label> 
+          </div>
+        </div>
+      </div>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
       <div class="form-group">
         <div class="row">
@@ -192,21 +228,21 @@
           
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow blur</label>    
-            <input type="range" class="custom-range" min="0" max="10" #shranger_1 (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="10" #shranger_1 [(ngModel)]="shadowProps.blur" (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.blur}}</label> 
           </div>
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow horizontal position (px)</label>    
-            <input type="range" class="custom-range" min="0" max="100" #shranger_2 (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #shranger_2 [(ngModel)]="shadowProps.offsetX" (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetX}}</label> 
           </div>
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow vertical position (px)</label>    
-            <input type="range" class="custom-range" min="0" max="100" #shranger_3 (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #shranger_3 [(ngModel)]="shadowProps.offsetY" (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetY}}</label> 
@@ -222,7 +258,7 @@
           <label class="color-field-label">
             <div class="color-field">
               <label class="smallFont" style="margin-right: 15px">Solid</label> 
-              <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="propscolorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+              <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
             </div>
           </label> 
         </div> 
@@ -241,7 +277,7 @@
         <div class="row">
           <div class="col-md-10">
             <label class="smallFont" for="customRange3">Border width</label>    
-            <input type="range" class="custom-range" min="0" max="100" #ranger (input)="changeBorderWidth(ranger.value)" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #ranger [(ngModel)]="borderwidValue" (input)="changeBorderWidth(ranger.value)" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;">
             <label class="smallFont" style="margin-right: 15px">{{borderwidValue}}</label> 
@@ -253,7 +289,7 @@
         <div class="row">
           <div class="col-md-10">
             <label class="smallFont" for="customRange3">Opacity</label>    
-            <input type="range" class="custom-range" min="0" max="100" #opranger_1 (input)="changeOpacity(opranger_1.value)" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #opranger_1 [(ngModel)]="opacityValue" (input)="changeOpacity(opranger_1.value)" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;">
             <label class="smallFont" style="margin-right: 15px">{{opacityValue}}</label> 
@@ -296,21 +332,21 @@
           <!-- </div> -->
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow blur</label>    
-            <input type="range" class="custom-range" min="0" max="10" #shranger_1 (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="10" #shranger_1 [(ngModel)]="shadowProps.blur" (input)="changeShadow(shranger_1.value, 'blur')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.blur}}</label> 
           </div>
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow horizontal position (px)</label>    
-            <input type="range" class="custom-range" min="0" max="100" #shranger_2 (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #shranger_2 [(ngModel)]="shadowProps.offsetX" (input)="changeShadow(shranger_2.value, 'x')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetX}}</label> 
           </div>
           <div class="col-md-10" *ngIf="switchShadow">
             <label class="smallFont" for="customRange3">Shadow vertical position (px)</label>    
-            <input type="range" class="custom-range" min="0" max="100" #shranger_3 (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
+            <input type="range" class="custom-range" min="0" max="100" #shranger_3 [(ngModel)]="shadowProps.offsetY"  (input)="changeShadow(shranger_3.value, 'y')" id="customRange1">
           </div> 
           <div class="col-md-2" style="line-height: 65px;" *ngIf="switchShadow">
             <label class="smallFont" style="margin-right: 15px">{{shadowProps.offsetY}}</label> 

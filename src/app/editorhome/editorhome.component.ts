@@ -1,6 +1,8 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  HostListener,
+  Renderer2
 } from '@angular/core';
 import * as $ from 'jquery';
 import {
@@ -26,10 +28,13 @@ export class EditorhomeComponent implements OnInit {
   displayText: string = "test";
   colorValue = '#1c9f1cff';
   fontFamily;
-  propscolorValue = '#1c9f1cff';
+  fillColorValue = '#1c9f1cff';
   shapeBorderValue = '1c9f1cff';
   borderwidValue = 0;
   opacityValue=1;
+  fontsizeValue = 60;
+  lineHeightValue = 1;
+  charSpaceValue = 1;
   selectedfontProps = '';
   shadowon;
   switchShadow=true;
@@ -46,7 +51,7 @@ export class EditorhomeComponent implements OnInit {
     'on': false
   };
   public colorPickerArray = [{
-      'color': '#E94A35',
+      'color': '#FFF',
       'selected': true
     },
     {
@@ -129,7 +134,7 @@ export class EditorhomeComponent implements OnInit {
   private wieghtOptions: string[] = ["10", "20", "30"];
   selectedWeight = "10";
   selectedFont = "Georgia";
-  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService, private renderer:Renderer2) {
 
   }
 
@@ -195,6 +200,18 @@ export class EditorhomeComponent implements OnInit {
     this.getGoogleFonts();
     this.getSearchIcons(null);
     // this.getIconfinderIcons();
+  }
+
+  @HostListener('document:keydown.delete', ['$event'])
+  onDeleteComponent(event: KeyboardEvent) {
+    this.doObjAction("delete");
+  }
+  
+  @HostListener('window:keydown',['$event'])
+  onKeyPress($event: KeyboardEvent) {
+    if(($event.ctrlKey || $event.metaKey) && $event.keyCode == 67) {
+      this.duplicateObject();
+    }
   }
 
   userLogout() {
@@ -272,6 +289,21 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
+  changeFontSize(value) {
+    this.activeObj.set('fontSize', value);
+    this.canvas.renderAll();
+  }
+
+  changelineHeight(value) {
+    this.activeObj.set('lineHeight', value);
+    this.canvas.renderAll();
+  }
+
+  changecharSpace(value) {
+    this.activeObj.set('charSpacing', value);
+    this.canvas.renderAll();
+  } 
+
   applyFlipObj(type) {
     this.activeObj.toggle(type);
     this.canvas.renderAll();
@@ -324,6 +356,8 @@ export class EditorhomeComponent implements OnInit {
         }
         _clipboard.top += 10;
         _clipboard.left += 10;
+        clonedObj.scaleX = _clipboard.scaleX;
+        clonedObj.scaleY = _clipboard.scaleY;
         _self.canvas.setActiveObject(clonedObj);
         _self.canvas.requestRenderAll();
       });
@@ -428,6 +462,11 @@ export class EditorhomeComponent implements OnInit {
   onObjectSelected(ev, args) {
     this.activeObj = ev.selected[0];
     this.propstxt = this.activeObj.name; 
+    this.fillColorValue = this.activeObj.fill;
+    this.opacityValue = this.activeObj.opacity*100;
+    this.borderwidValue = this.activeObj.strokeWidth;
+    this.lineHeightValue = this.activeObj.lineHeight;
+    this.charSpaceValue = this.activeObj.charSpacing;
     this.switchShadow =  this.activeObj.jsonProperty.shadow ? true :false; 
     this.shadowProps = JSON.parse(JSON.stringify(this.activeObj.jsonProperty.shadow));
   }
@@ -495,6 +534,24 @@ export class EditorhomeComponent implements OnInit {
         }
       }
     });
+  }
+
+  exportImage(type) {
+    var canvas = this.canvas;
+    var blob;
+    if(type == 'png') {
+      blob = this.dataURLtoBlob(canvas.toDataURL('image/png'));
+    }
+    else {
+      blob = this.dataURLtoBlob(canvas.toDataURL({format: "jpeg"}));
+    }
+    const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+    a.href = URL.createObjectURL(blob);
+    a.download = "Untitled";
+    document.body.appendChild(a);
+    a.click();        
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blob);
   }
 
   getSvgIcon(data) { 
@@ -566,5 +623,15 @@ export class EditorhomeComponent implements OnInit {
       console.log(responseData);
     })
   }  
+
+  dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+  }
+
 
 }
