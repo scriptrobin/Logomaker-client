@@ -5,17 +5,13 @@ import {
   Renderer2
 } from '@angular/core';
 import * as $ from 'jquery';
-import {
-  fabric
-} from 'fabric';
-import {
-  HttpClient,HttpHeaders
-} from "@angular/common/http";
-import {
-  ColorPicker
-} from '@syncfusion/ej2-inputs';
+import { fabric } from 'fabric';
+import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { ColorPicker } from '@syncfusion/ej2-inputs';
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
+import FontFaceObserver from 'fontfaceobserver'
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-editorhome',
   templateUrl: './editorhome.component.html',
@@ -28,6 +24,8 @@ export class EditorhomeComponent implements OnInit {
   displayText: string = "test";
   colorValue = '#1c9f1cff';
   fontFamily;
+  selectedFontFamily="Arial";
+  selectedFontIndex = 0;
   fillColorValue = '#1c9f1cff';
   shapeBorderValue = '1c9f1cff';
   borderwidValue = 0;
@@ -134,10 +132,9 @@ export class EditorhomeComponent implements OnInit {
   private wieghtOptions: string[] = ["10", "20", "30"];
   selectedWeight = "10";
   selectedFont = "Georgia";
-  constructor(private http: HttpClient, private router: Router, private userService: UserService, private renderer:Renderer2) {
-
+  constructor(private http: HttpClient, private router: Router, private userService: UserService, private renderer:Renderer2, private sanitizer: DomSanitizer) {
+    
   }
-
   private canvas: any;
   ngOnInit(): void {
     $(".sidebar-dropdown > a").click(function () {
@@ -487,13 +484,26 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
-  applyFontStyle(font) {
-    /* this.activeObj.set({
-      'fontFamily' : this.selectedFont
-    }); */
-    this.activeObj.set("fontFamily", font.family);
-    this.setActiveObject(this.activeObj);
-    this.canvas.renderAll();
+  applyFontStyle(font, index) { 
+    var _self = this; 
+    this.selectedFontFamily = font.family;
+    this.selectedFontIndex = index;
+    var head = document.getElementsByTagName('head')[0];
+    const link = document.createElement('link');
+    link.id = font.family;
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'http://fonts.googleapis.com/css?family='+font.family;
+    link.media = 'all';
+    head.appendChild(link);
+    var myfont = new FontFaceObserver(font.family)
+    myfont.load()
+    .then(function() { 
+      _self.canvas.getActiveObject().set("fontFamily", font.family);
+      _self.canvas.requestRenderAll();
+    }).catch(function(e) {
+      console.log(e) 
+    }); 
   }
 
   getSearchIcons(type) { 
@@ -604,23 +614,7 @@ export class EditorhomeComponent implements OnInit {
 
   getGoogleFonts() {
     this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBNhbaIulKGBHdPwBJPPsLEZcwcnTfTpaI').subscribe((responseData: any) => {
-      this.fontFamily = responseData.items;
-      for (var i = 0; i < responseData.items.length; i++) {
-        const fontUrl = `https://fonts.googleapis.com/css?family=${responseData.items[i].family}&display=swap`;
-        const styles = `
-        @font-face {
-          font-family: 'font1';
-          src: url(${fontUrl}) format('ttf');
-        }
-        h1, h2, h3 {
-          font-family: font1, sans-serif;
-        }`
-        const node = document.createElement('style');
-        node.innerHTML = styles;
-        document.body.appendChild(node);
-      }
-
-      console.log(responseData);
+      this.fontFamily = responseData.items;  
     })
   }  
 

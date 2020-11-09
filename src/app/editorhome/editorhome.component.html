@@ -1,6 +1,6 @@
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark navbar-header" style="background: #2b2b2b;">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="" routerLink = '/dashboard'>
     <h4>Logomaker</h4>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
@@ -76,12 +76,12 @@
         <div class="row">
           <div class="col-md-8"> 
               <label class="smallFont " >Font Family</label>
-              <div class="theme-dropdown" data-toggle="dropdown">Arial</div>
+              <div class="theme-dropdown" data-toggle="dropdown">{{selectedFontFamily}}</div>
                 <span class="dropdown-icon">
                   <i class="fa fa-angle-down fa-xs" aria-hidden="true"></i> 
                 </span> 
-              <ul class="dropdown-menu scrollable-menu" role="menu" >
-                  <li *ngFor="let option of fontFamily" (click)='applyFontStyle(option)'>
+              <ul class="dropdown-menu scrollable-menu" role="menu" > 
+                  <li *ngFor="let option of fontFamily;index as i " [ngClass]="{'selected': selectedFontIndex == i}" (click)='applyFontStyle(option, i)'>
                     <span style="margin-left: 10px;">{{option.family}}</span>
                   </li> 
               </ul> 
@@ -421,13 +421,7 @@
               <ul>
                 <li>
                   <a (click)="addSimpleText()">Simple text</a>
-                </li>
-                <li>
-                  <a>Orders</a>
-                </li>
-                <li>
-                  <a>Credit cart</a>
-                </li>
+                </li> 
               </ul>
             </div>
           </li>
