@@ -18,7 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./editorhome.component.css']
 })
 export class EditorhomeComponent implements OnInit {
-  
+  userProfile;
   activeObj;
   propstxt: string;
   displayText: string = "test";
@@ -174,6 +174,7 @@ export class EditorhomeComponent implements OnInit {
       
     }); */
 
+    this.getUserProfile();
 
     this.canvas = new fabric.Canvas('canvas', {
       selection: true,
@@ -209,6 +210,22 @@ export class EditorhomeComponent implements OnInit {
     if(($event.ctrlKey || $event.metaKey) && $event.keyCode == 67) {
       this.duplicateObject();
     }
+  }
+
+  goToSettings() {
+    this.router.navigateByUrl('/dashboard');
+  }
+
+  zoomCanvas(type) {
+    if(type == 'fit') {
+      
+    }
+  }
+
+  getUserProfile() {
+    this.userService.getUserProfile().subscribe((res)=> {
+      this.userProfile = res["user"];
+    });
   }
 
   userLogout() {

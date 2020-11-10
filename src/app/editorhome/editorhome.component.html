@@ -32,6 +32,7 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
+      
     </ul>
     <ul class="navbar-nav ml-auto nav-flex-icons">
       <!-- <li class="nav-item">
@@ -39,32 +40,39 @@
           <i class="fab fa-twitter"></i>
         </a>
       </li> -->
-      <li class="nav-item" style="padding-right: 10px;">
-        <a class="nav-link waves-effect waves-light btn10 exportBtn dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-          <span>Export</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-default exporthover" aria-labelledby="navbarDropdownMenuLink-333" style="color: white;
-        background-color: #000000 !important;text-align: center;">
-          <a class="dropdown-item" (click)="exportImage('png')">PNG</a> 
-          <a class="dropdown-item" (click)="exportImage('jpeg')">JPEG</a> 
-        </div>
-      </li>
-      <!-- <li class="nav-item dropdown"> -->
-        <!-- <a class="nav-link dropdown-toggle logoutBtn" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true"
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle logoutBtn" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           <i class="fas fa-user"></i>
-        </a> -->
+        </a>
         <!-- <a class="nav-link waves-effect waves-light btn10 exportBtn"> <span>Logout</span></a> -->
-        <!-- <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-          <a class="dropdown-item" (click)="userLogout()">Logout</a> 
-        </div> -->
-      <!-- </li> -->
+        
+        <div class="dropdown-menu dropdown-menu-right dropdown-default userprofile" aria-labelledby="navbarDropdownMenuLink-333" style="color: black;
+        background-color: white !important;text-align: center;">
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cur" (click)="goToSettings()"><i class="fa fa-cog" aria-hidden="true" style="margin-right: 6px;"></i>Settings</a> 
+          <a class="dropdown-item cur" (click)="userLogout()"><i class="fa fa-sign-out-alt" aria-hidden="true" style="margin-right: 6px;"></i>Sign out</a> 
+        </div>
+      </li>s
     </ul>
   </div>
 </nav>
 <!--/.Navbar --> 
 <div class="rightBlock">
-  <div class="container">
+  <div class="container">  
+    <div class="row" *ngIf="!activeObj">
+      <div class="col-md-12"> 
+          <label class="smallFont" style="margin-bottom: 10px;">Quick Export</label> 
+          <span style="float: right;">
+            <svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><path d="M1.39 2.688a.5.5 0 1 0-.78.624l.78-.624zM3 5.5l-.39.312a.5.5 0 0 0 .78 0L3 5.5zm2.39-2.188a.5.5 0 1 0-.78-.624l.78.624zM1 .5a.5.5 0 1 0 0 1v-1zm4 1a.5.5 0 0 0 0-1v1zM.61 3.312l2 2.5.78-.624-2-2.5-.78.624zm2.78 2.5l2-2.5-.78-.624-2 2.5.78.624zM1 1.5h4v-1H1v1z" fill="white" fill-rule="nonzero"></path></svg>
+          </span>
+          <ul class="mono">
+            <li class="wonb" (click)="exportImage('png')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>PNG</li>
+            <li class="wonb" (click)="exportImage('jpeg')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>JPEG</li>
+          </ul>
+      </div>
+    </div>
+    <hr *ngIf="!activeObj" style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
     <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
       <label class="smallFont">Text to display</label>
       <textarea class="form-control" type="text" [(ngModel)]="activeObj.jsonProperty.displayText"  placeholder=""></textarea> 
@@ -464,17 +472,14 @@
     </div>
     <!-- sidebar-content  -->
     <div class="sidebar-footer">
-      <a>
-        <i class="fa fa-bell"></i>
-        <span class="badge badge-pill badge-warning notification">3</span>
+      <a (click)="zoomCanvas('fit')">
+        <svg width="10" height="8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8h-.833v-2H6.25V0H10v2.8zM6.25 8v-.8h2.917v-2H10V8H6.25zM0 5.2h.833v2H3.75V8H0V5.2zM3.75 0v.8H.833v2H0V0h3.75z" fill="white"></path></svg>
       </a>
-      <a>
-        <i class="fa fa-envelope"></i>
-        <span class="badge badge-pill badge-success notification">7</span>
+      <a (click)="zoomCanvas('in')">
+        <svg width="10" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 1a.5.5 0 00-1 0v3.5H1a.5.5 0 000 1h3.5V9a.5.5 0 001 0V5.5H9a.5.5 0 000-1H5.5V1z" fill="white"></path></svg>
       </a>
-      <a>
-        <i class="fa fa-cog"></i>
-        <span class="badge-sonar"></span>
+      <a (click)="zoomCanvas('out')">
+        <svg width="10" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h8" stroke="white" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </a>
       <a>
         <i class="fa fa-power-off"></i>

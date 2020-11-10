@@ -8,10 +8,12 @@ import {UserService} from '../shared/user.service';
   providers: []
 })
 export class DashboardComponent implements OnInit {
-
+  userProfile;
+  selectedTab='dashboard';
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getUserProfile(); 
   }
 
   goToEditor() {
@@ -21,6 +23,16 @@ export class DashboardComponent implements OnInit {
   userLogout() {
     this.userService.deleteToken();
     this.router.navigateByUrl('/home');
+  }
+
+  getUserProfile() {
+    this.userService.getUserProfile().subscribe((res)=> {
+      this.userProfile = res["user"];
+    });
+  }
+
+  changeTab(tab) {
+    this.selectedTab = tab;
   }
 
 }

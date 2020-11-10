@@ -154,6 +154,13 @@ body {
   z-index: -1;
 }
 
+.dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid #e9ecef;
+}
+
 .loadmore-Btn{
   display: inline-block;
   width: 168px;
@@ -475,6 +482,10 @@ body {
 .sidebar-footer>a .notification {
   position: absolute;
   top: 0;
+}
+
+.sidebar-footer a:hover{
+  background: #34363c;
 }
 
 .badge-sonar {
@@ -1112,6 +1123,47 @@ select {
     height: 100%;
   }
 
-  .exporthover a:hover{
-    background: #4f4f4f;
+  .userprofile a:hover{
+    /* background: #4f4f4f; */
+    color: #eb5757;
+  }
+
+  .userprofile a{
+    font-family: proxima-nova,sans-serif;
+    font-size: 13px;
+  }
+
+  .wonb { 
+    font-family: proxima-nova,sans-serif;
+    color: #16c7ff;
+    font-size: 13px;
+    border: 1px solid #bababa8a;
+  }
+
+  .mono {
+    
+    padding-left: 0;
+    text-align: center;
+    display: flex; 
+  }
+  
+  .mono li {
+    font-family: "proxima-nova", sans-serif;
+    font-size: 12px;
+    list-style: none;
+    width: 100%;  
+    cursor: pointer;
+    margin-right: 4px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    height: 28px;
+    /* transition: all 700ms ease-in-out; */
+  }
+
+  .mono li:hover{
+    background-color: #34363c !important;
+    transition: all .5s;
   }

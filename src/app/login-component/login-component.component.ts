@@ -61,8 +61,7 @@ export class LoginComponentComponent implements OnInit {
     if(this.validMail) {
       this.userService.login(this.model).subscribe((res) =>{
         this.showLogIn = true;
-        this.userService.setToken(res['token']);
-        this.getUserProfile(); 
+        this.userService.setToken(res['token']); 
         this.router.navigateByUrl('/dashboard');
       }, (err) =>{
         this.validMail = false;
@@ -71,10 +70,6 @@ export class LoginComponentComponent implements OnInit {
     }
   }
 
-  getUserProfile() {
-    this.userService.getUserProfile().subscribe((res)=> {
-      console.log(res);
-    });
-  }
+  
 
 }
