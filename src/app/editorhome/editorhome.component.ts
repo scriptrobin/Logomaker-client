@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   HostListener,
-  Renderer2
+  Renderer2,
+  ViewChild
 } from '@angular/core';
 import * as $ from 'jquery';
 import { fabric } from 'fabric';
@@ -200,6 +201,8 @@ export class EditorhomeComponent implements OnInit {
     // this.getIconfinderIcons();
   }
 
+  @ViewChild('myname') input; 
+
   @HostListener('document:keydown.delete', ['$event'])
   onDeleteComponent(event: KeyboardEvent) {
     this.doObjAction("delete");
@@ -218,7 +221,7 @@ export class EditorhomeComponent implements OnInit {
 
   zoomCanvas(type) {
     if(type == 'fit') {
-      
+
     }
   }
 
