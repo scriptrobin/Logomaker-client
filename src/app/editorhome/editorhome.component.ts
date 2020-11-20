@@ -1,9 +1,11 @@
+
 import {
   Component,
   OnInit,
   HostListener,
   Renderer2,
-  ViewChild
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import * as $ from 'jquery';
 import { fabric } from 'fabric';
@@ -23,12 +25,12 @@ export class EditorhomeComponent implements OnInit {
   activeObj;
   propstxt: string;
   displayText: string = "test";
-  colorValue = '#1c9f1cff';
+  colorValue = '#000';
   fontFamily;
   selectedFontFamily="Arial";
   selectedFontIndex = 0;
-  fillColorValue = '#1c9f1cff';
-  shapeBorderValue = '1c9f1cff';
+  fillColorValue = '#000';
+  shapeBorderValue = '#000';
   borderwidValue = 0;
   opacityValue=1;
   fontsizeValue = 60;
@@ -42,6 +44,7 @@ export class EditorhomeComponent implements OnInit {
   svgUrl=[];
   iconsLoader=false;
   loadmoreCount = 40;
+  _scale = 1;
   shadowProps = {
     'color': 'black',
     'blur': 0,
@@ -201,7 +204,9 @@ export class EditorhomeComponent implements OnInit {
     // this.getIconfinderIcons();
   }
 
-  @ViewChild('myname') input; 
+  @ViewChild('wsContainer') wsContainer; 
+  @ViewChild('zoomFit') zoomFit; 
+  @ViewChild('zoomOut') zoomOut; 
 
   @HostListener('document:keydown.delete', ['$event'])
   onDeleteComponent(event: KeyboardEvent) {
@@ -221,7 +226,21 @@ export class EditorhomeComponent implements OnInit {
 
   zoomCanvas(type) {
     if(type == 'fit') {
-
+      this.wsContainer.nativeElement.style = 'transform:scale(1)'; 
+    }
+    else if(type == 'in'){
+      this._scale+=0.1;
+      this.wsContainer.nativeElement.style = 'transform:scale('+this._scale+')'; 
+    }
+    else if(type == 'out') {
+      if(this._scale <= 0) {
+        this._scale = 0.1;
+        this.wsContainer.nativeElement.style = 'transform:scale('+this._scale+')'; 
+      }
+      else {
+        this._scale-=0.1;
+        this.wsContainer.nativeElement.style = 'transform:scale('+this._scale+')'; 
+      }
     }
   }
 
@@ -424,6 +443,31 @@ export class EditorhomeComponent implements OnInit {
     this.setActiveObject(text);
   }
 
+  addItext() {
+    var itext = new fabric.IText('Double click me to edit', { 
+      left: this.canvas.getWidth()/2,
+      top: this.canvas.getHeight()/2,
+      fontFamily: 'Comic Sans',
+      fill: '#000',
+	    'originX': 'center',
+      'originY': 'center'
+    });
+    itext.jsonProperty = {
+      displayText: 'Add text',
+      shadow : {
+        'color': 'black',
+        'blur': 0,
+        'offsetX': 0,
+        'offsetY': 0,
+        'on': false
+      }
+    }
+    itext.name = "simpleText"; 
+    this.activeObj = itext; 
+    this.canvas.add(itext);
+    this.setActiveObject(itext);
+  }
+
   addCircle() {
     var circle = new fabric.Circle({
       radius: 100,
@@ -476,6 +520,58 @@ export class EditorhomeComponent implements OnInit {
     this.setActiveObject(rect);
   }
 
+  addTriangle() {
+    var triangle = new fabric.Triangle({
+      left: this.canvas.getWidth()/2,
+      top: this.canvas.getHeight()/2,
+      width: 300,
+      height: 300,
+      fill: 'rgb(200, 185, 162)',
+      originX: 'center',
+      originY: 'center',
+      stroke: "#000",
+      strokeWidth: 0
+    });
+    triangle.name = "shapes";
+    triangle.jsonProperty = {};
+    triangle.jsonProperty.shadow = {
+      'color': 'black',
+      'blur': 0,
+      'offsetX': 0,
+      'offsetY': 0,
+      'on': false
+    };
+    this.activeObj = triangle; 
+    this.canvas.add(triangle);
+    this.setActiveObject(triangle);
+  }
+
+  addEllipse() {
+    var ellipse = new fabric.Ellipse({ 
+      rx: 100, 
+      ry: 50, 
+      fill: '#000', 
+      stroke: '#000', 
+      strokeWidth: 3 ,
+      left: this.canvas.getWidth()/2,
+      top: this.canvas.getHeight()/2,
+      originX: 'center',
+      originY: 'center'
+    }); 
+    ellipse.name = "shapes";
+    ellipse.jsonProperty = {};
+    ellipse.jsonProperty.shadow = {
+      'color': 'black',
+      'blur': 0,
+      'offsetX': 0,
+      'offsetY': 0,
+      'on': false
+    };
+    this.activeObj = ellipse; 
+    this.canvas.add(ellipse);
+    this.setActiveObject(ellipse);
+  }
+
   onObjectSelected(ev, args) {
     this.activeObj = ev.selected[0];
     this.propstxt = this.activeObj.name; 
@@ -500,7 +596,7 @@ export class EditorhomeComponent implements OnInit {
   }
 
   updateSimpleText() {
-    this.activeObj.text = this.activeObj.jsonProperty.displayText;
+    // this.activeObj.text = this.activeObj.text;
     this.canvas.renderAll();
   }
 

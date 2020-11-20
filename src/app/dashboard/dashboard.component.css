@@ -19741,5 +19741,19 @@
       display: none !important;
     }
   }
+
+  .newLogoBtn{
+    width: 139px;
+    float: right;
+    right: 14px;
+    top: 70px;
+    border-radius: 50px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    padding: 0px;
+    justify-content: center;
+  }
   
   /*# sourceMappingURL=dashboard-free.css.map */

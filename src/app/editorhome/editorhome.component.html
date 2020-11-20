@@ -75,10 +75,7 @@
     <hr *ngIf="!activeObj" style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
     <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
       <label class="smallFont">Text to display</label>
-      <textarea class="form-control" type="text" [(ngModel)]="activeObj.jsonProperty.displayText"  placeholder=""></textarea> 
-      <div class="top-mspace tr"> 
-        <a class="btn10" (click)="updateSimpleText()"> <span>Update</span></a> 
-      </div>
+      <textarea class="form-control" type="text" (ngModelChange)="updateSimpleText()" [(ngModel)]="activeObj.text"  placeholder=""></textarea>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);">
       <div class="form-group">
         <div class="row">
@@ -428,7 +425,10 @@
             <div class="sidebar-submenu">
               <ul>
                 <li>
-                  <a (click)="addSimpleText()">Simple text</a>
+                  <a (click)="addSimpleText()">Add Text</a>
+                </li> 
+                <li>
+                  <a (click)="addItext()">Simple text</a>
                 </li> 
               </ul>
             </div>
@@ -445,12 +445,30 @@
                   <div class="list-shape" (click)="addCircle()" style="cursor: pointer;margin-left: 30px;">
                     <svg viewBox="0 0 24 24" fill="#16c7ff" width="34px" height="34px"><path d="M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 Z M12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 Z"></path></svg>
                   </div>
-                  <div class="list-shape" (click)="addRectangle()" style="cursor: pointer;">
+                  <div class="list-shape cur" (click)="addRectangle()" style="cursor: pointer;" style="margin-left: 13px;">
                     <svg viewBox="0 0 24 24" fill="#16c7ff" width="34px" height="34px"><path d="M5,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,19 C20,19.5522847 19.5522847,20 19,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,5 C4,4.44771525 4.44771525,4 5,4 Z M5,19 L19,19 L19,5 L5,5 L5,19 Z"></path></svg>
                   </div>
-                  <div class="list-shape" style="cursor: pointer;">  
+                  <div class="list-shape cur" (click)="addTriangle()" style="cursor: pointer;" style="margin-left: 13px;"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="34px" height="34px" viewBox="0 0 72.72 72.719" fill="#16c7ff" style="enable-background:new 0 0 72.72 72.719;" xml:space="preserve">
+                      <g>
+                        <g>
+                          <path d="M72.72,65.686H0L36.36,7.034L72.72,65.686z M5.388,62.686h61.943L36.36,12.727L5.388,62.686z"/>
+                        </g>
+                      </g>
+                      </svg> 
                   </div>
                 </li> 
+                <li  class="d-flex">
+                  <div class="list-shape" (click)="addEllipse()" style="cursor: pointer;margin-left: 30px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="34px" height="34px" viewBox="0 0 88.332 88.333" fill="#16c7ff" style="enable-background:new 0 0 88.332 88.333;" xml:space="preserve">
+                      <g>
+                        <g>
+                          <path d="M44.166,75.062C19.812,75.062,0,61.202,0,44.167C0,27.13,19.812,13.27,44.166,13.27c24.354,0,44.166,13.859,44.166,30.896    C88.332,61.204,68.52,75.062,44.166,75.062z M44.166,16.27C21.467,16.27,3,28.784,3,44.167c0,15.381,18.467,27.896,41.166,27.896    s41.166-12.515,41.166-27.896C85.332,28.785,66.865,16.27,44.166,16.27z"/>
+                        </g>
+                      </g> 
+                      </svg>
+                  </div>
+                </li>
               </ul>
             </div>
           </li>
@@ -472,13 +490,13 @@
     </div>
     <!-- sidebar-content  -->
     <div class="sidebar-footer">
-      <a (click)="zoomCanvas('fit')">
+      <a (click)="zoomCanvas('fit')" #zoomFit>
         <svg width="10" height="8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8h-.833v-2H6.25V0H10v2.8zM6.25 8v-.8h2.917v-2H10V8H6.25zM0 5.2h.833v2H3.75V8H0V5.2zM3.75 0v.8H.833v2H0V0h3.75z" fill="white"></path></svg>
       </a>
-      <a (click)="zoomCanvas('in')">
+      <a (click)="zoomCanvas('in')" #zoomIn>
         <svg width="10" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 1a.5.5 0 00-1 0v3.5H1a.5.5 0 000 1h3.5V9a.5.5 0 001 0V5.5H9a.5.5 0 000-1H5.5V1z" fill="white"></path></svg>
       </a>
-      <a (click)="zoomCanvas('out')">
+      <a (click)="zoomCanvas('out')" #zoomOut>
         <svg width="10" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h8" stroke="white" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </a>
       <a>
@@ -523,7 +541,7 @@
     <!-- <div class="">  -->
     <!-- <div class="">   -->
     <div class="wsContainer" style="display: flex; justify-content: center; align-items: center;">
-      <div style="position: absolute;">
+      <div style="position: absolute;" #wsContainer>
         <canvas id="canvas"></canvas>
       </div>
     </div>
