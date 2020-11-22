@@ -23,9 +23,12 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "allowedCommonJsDependencies": ["fabric", "jquery"],
+            "allowedCommonJsDependencies": [
+              "fabric",
+              "jquery"
+            ],
             "styles": [
-              "src/styles.css", 
+              "src/styles.css",
               "node_modules/angular-bootstrap-md/assets/scss/bootstrap/bootstrap.scss",
               "node_modules/angular-bootstrap-md/assets/scss/mdb.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
@@ -127,8 +130,13 @@
               "devServerTarget": "Logomaker-client:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "Logomaker-client"
 }
