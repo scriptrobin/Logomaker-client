@@ -155,7 +155,7 @@ export class DashboardComponent implements OnInit {
   getSvgIcon(data,index, callback) { 
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG',
+        'authorization': 'Bearer 4Lb0OMq5DBI4t9qEWYNS0Zzhg47Tuye5rPSZSgmjhVPoeKXeDFOyzgUqB7WrjNN0',
         'Access-Control-Allow-Origin': 'http://localhost:4200' ,
         "Access-Control-Allow-Methods":"GET, POST",
         'noAuth': "true"
