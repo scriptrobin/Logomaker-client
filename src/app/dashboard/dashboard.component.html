@@ -96,67 +96,39 @@
           
           <!-- End Navbar -->
           <div class="container-fluid" *ngIf="selectedTab=='dashboard'">
-            <button class="btn btn-primary newLogoBtn" (click)="goToEditor()"><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24" class="buttonnext1588441731__prefix"><path d="M12 12L12 6 11 6 11 12 5 12 5 13 11 13 11 19 12 19 12 13 18 13 18 12z"></path></svg>New Logo</button> 
+            
           </div>
           <div class="content" *ngIf="selectedTab=='dashboard'">
             <div class="container-fluid">
               <div class="row">
-                    <div class="col-md-4">
-                        <div class="card card-chart">
-                          <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart" (click)="goToEditor()" style="height: 123px;"></div>
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title">Daily Sales</h4>
-                            <p class="card-category">
-                              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-                          </div>
-                          <div class="card-footer">
-                            <div class="stats">
-                              <i class="material-icons">access_time</i> updated 4 minutes ago
+                  <div class="col-md-12"> 
+                      <form>
+                        <div class="row"> 
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Bussiness Name</label>
+                                <input type="text"  class="form-control" [(ngModel)]="iconName" [ngModelOptions]="{standalone: true}">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label class="bmd-label-floating">Search by keyword</label>
+                                <input type="email"  class="form-control" [(ngModel)]="keywordText" [ngModelOptions]="{standalone: true}">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <button class="btn btn-primary newLogoBtn" *ngIf='showLoader==false' (click)="createLogos()">Create Logos</button> 
+                              <button class="btn btn-primary newLogoBtn" *ngIf='showLoader'><span><i class="fas fa-spinner fa-spin"></i></span></button> 
                             </div>
                           </div>
-                        </div> 
-                      </div>
-                      <div class="col-md-4">
-                        <div class="card card-chart">
-                          <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart" style="height: 123px;"></div>
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title">Daily Sales</h4>
-                            <p class="card-category">
-                              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-                          </div>
-                          <div class="card-footer">
-                            <div class="stats">
-                              <i class="material-icons">access_time</i> updated 4 minutes ago
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="card card-chart">
-                          <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart" style="height: 123px;"></div>
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title">Daily Sales</h4>
-                            <p class="card-category">
-                              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-                          </div>
-                          <div class="card-footer">
-                            <div class="stats">
-                              <i class="material-icons">access_time</i> updated 4 minutes ago
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="card card-chart">
-                          <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart" style="height: 123px;"></div>
-                          </div>
+                      </form>
+                    </div>
+                      <div class="col-md-4" *ngFor="let logo of logos;index as i" [hidden]="!logo['svg']">
+                        <div class="card card-chart" >
+                          <div class="" (click)="goToEditor(logo, i)">
+                            <!-- <div class="ct-chart" id="dailySalesChart" style="height: 123px;"></div> -->
+                            <canvas id={{logo.id}}></canvas>
+                          </div> 
                           <div class="card-body">
                             <h4 class="card-title">Daily Sales</h4>
                             <p class="card-category">

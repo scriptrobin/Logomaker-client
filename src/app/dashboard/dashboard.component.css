@@ -1,6 +1,6 @@
 @import '~font-awesome/css/font-awesome.css';
 @import '~material-design-icons/iconfont/material-icons.css';
-
+@import '~@fortawesome/fontawesome-free/css/all.css';
 .card {
     font-size: .875rem;
   }
@@ -2850,20 +2850,21 @@
   
   .btn-primary {
     color: #ffffff;
-    background-color: #2196f3;
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
     border-color: #2196f3;
     box-shadow: none;
   }
   
   .btn-primary:hover {
     color: #ffffff;
-    background-color: #0c83e2;
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
     border-color: #0c7cd5;
   }
   
   .btn-primary:focus,
   .btn-primary.focus {
     box-shadow: none, 0 0 0 0.2rem rgba(33, 150, 243, 0.5);
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
   }
   
   .btn-primary.disabled,
@@ -2877,7 +2878,7 @@
   .btn-primary:not(:disabled):not(.disabled).active,
   .show>.btn-primary.dropdown-toggle {
     color: #ffffff;
-    background-color: #0c7cd5;
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
     border-color: #0b75c9;
   }
   
@@ -15449,7 +15450,7 @@
   }
   
   .sidebar[data-color="purple"] li.active>a {
-    background-color: #9c27b0;
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
   }
   
@@ -15561,7 +15562,7 @@
   .main-panel>.content {
     margin-top: 70px;
     padding: 30px 15px;
-    min-height: calc(100vh - 123px);
+    min-height: calc(100vh - 70px);
   }
   
   .main-panel>.footer {
@@ -17506,7 +17507,7 @@
   .card.bg-primary,
   .card.card-rotate.bg-primary .front,
   .card.card-rotate.bg-primary .back {
-    background: linear-gradient(60deg, #ab47bc, #8e24aa);
+    background: linear-gradient(53deg, rgba(78,80,244,1) 0%, rgba(89,75,246,1) 14.000000000000002%,rgba(105,71,249,1) 49%, rgba(152,51,253,1) 100%);
   }
   
   .card .card-header-info .card-icon,
@@ -19743,17 +19744,18 @@
   }
 
   .newLogoBtn{
-    width: 139px;
+    width: 187px;
     float: right;
-    right: 14px;
-    top: 70px;
+    /* right: 14px; */
+    margin-top: 30px;
     border-radius: 50px;
-    height: 35px;
+    height: 36px;
     display: flex;
     align-items: center;
     vertical-align: middle;
     padding: 0px;
     justify-content: center;
+    font-size:16px;
   }
   
   /*# sourceMappingURL=dashboard-free.css.map */

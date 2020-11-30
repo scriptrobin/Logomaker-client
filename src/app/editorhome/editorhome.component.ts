@@ -136,6 +136,7 @@ export class EditorhomeComponent implements OnInit {
   private wieghtOptions: string[] = ["10", "20", "30"];
   selectedWeight = "10";
   selectedFont = "Georgia";
+  selectedLogo = '';
   constructor(private http: HttpClient, private router: Router, private userService: UserService, private renderer:Renderer2, private sanitizer: DomSanitizer) {
     
   }
@@ -184,8 +185,8 @@ export class EditorhomeComponent implements OnInit {
       selection: true,
       selectionBorderColor: 'blue',
       backgroundColor: 'rgb(255,255,255)',
-      width: 800,
-      height: 500
+      width: 430,
+      height: 530
     });
     var __self = this;
     this.canvas.on('selection:created', function (ev, args) {
@@ -201,6 +202,8 @@ export class EditorhomeComponent implements OnInit {
     }); 
     this.getGoogleFonts();
     this.getSearchIcons(null);
+    this.selectedLogo = JSON.parse(localStorage.getItem('selectedLogo'));
+    localStorage.removeItem("selectedLogo");
     // this.getIconfinderIcons();
   }
 
@@ -438,7 +441,6 @@ export class EditorhomeComponent implements OnInit {
     }
     text.name = "simpleText"; 
     this.activeObj = text;
-    // this.changeShadow(null, null);
     this.canvas.add(text);
     this.setActiveObject(text);
   }
@@ -600,7 +602,7 @@ export class EditorhomeComponent implements OnInit {
     this.canvas.renderAll();
   }
 
-  applyFontStyle(font, index) { 
+  applyFontStyle(font, index, type, obj) { 
     var _self = this; 
     this.selectedFontFamily = font.family;
     this.selectedFontIndex = index;
@@ -615,7 +617,12 @@ export class EditorhomeComponent implements OnInit {
     var myfont = new FontFaceObserver(font.family)
     myfont.load()
     .then(function() { 
-      _self.canvas.getActiveObject().set("fontFamily", font.family);
+      if(type == 'direct') {
+        obj.set("fontFamily", font.family);
+      }
+      else {
+        _self.canvas.getActiveObject().set("fontFamily", font.family);
+      }
       _self.canvas.requestRenderAll();
     }).catch(function(e) {
       console.log(e) 
@@ -696,12 +703,12 @@ export class EditorhomeComponent implements OnInit {
       fabric.loadSVGFromString(response, function(objects, options) {
         var obj = fabric.util.groupSVGElements(objects, options);
         obj.left = __self.canvas.getWidth()/2;
-        obj.top = __self.canvas.getHeight()/2;
+        obj.top = 150;
         obj.originX = 'center';
         obj.originY = 'center';
         obj.name = "shapes";
-        var widRatio = (__self.canvas.getWidth() -50) /obj.width;
-        var heiRatio = (__self.canvas.getHeight() - 50 )/obj.height;
+        var widRatio = (__self.canvas.getWidth() -150) /obj.width;
+        var heiRatio = (__self.canvas.getHeight() - 150 )/obj.height;
         if(widRatio  < heiRatio) {
           obj.scaleX = widRatio;
           obj.scaleY = widRatio;
@@ -729,8 +736,9 @@ export class EditorhomeComponent implements OnInit {
   }
 
   getGoogleFonts() {
-    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBNhbaIulKGBHdPwBJPPsLEZcwcnTfTpaI').subscribe((responseData: any) => {
-      this.fontFamily = responseData.items;  
+    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyB-6n9BF8_zIip-mkCYZfU2IglVQBFqh5M').subscribe((responseData: any) => {
+      this.fontFamily = responseData.items; 
+      this.loadDynamicLogos();
     })
   }  
 
@@ -741,6 +749,106 @@ export class EditorhomeComponent implements OnInit {
         u8arr[n] = bstr.charCodeAt(n);
     }
     return new Blob([u8arr], {type:mime});
+  }
+
+  loadDynamicLogos() {
+    var __self = this;
+    if(!__self.selectedLogo){
+      return;
+    }
+    var _text = __self.selectedLogo['text'];
+    var _font = __self.selectedLogo['fontFamily'];
+    var _strokeColor = __self.selectedLogo['strokeColor'];
+    var textColor = __self.selectedLogo['textColor'];
+    var text_1Color = __self.selectedLogo['text_1Color'];
+    var backgroundColor = __self.selectedLogo['backgroundColor'];
+    var _svg = __self.selectedLogo['svg'];
+    fabric.loadSVGFromString(_svg, function(objects, options) {
+      var obj = fabric.util.groupSVGElements(objects, options);
+      obj.left = __self.canvas.getWidth()/2;
+      obj.top = __self.canvas.getHeight()/2 - 100;
+      obj.originX = 'center';
+      obj.originY = 'center'; 
+      obj.name = 'shapes';
+      var widRatio = (__self.canvas.getWidth() -150) /obj.width;
+      var heiRatio = (__self.canvas.getHeight() - 150 )/obj.height;
+      obj.jsonProperty = {
+        shadow : {
+          'color': 'black',
+          'blur': 0,
+          'offsetX': 0,
+          'offsetY': 0,
+          'on': false
+        }
+      }
+      if(widRatio  < heiRatio) {
+        obj.scaleX = widRatio;
+        obj.scaleY = widRatio;
+      }
+      else {
+        obj.scaleX = heiRatio;
+        obj.scaleY = heiRatio;
+      } 
+      obj.setCoords();
+      
+      var text = new fabric.Text(_text, {
+        left: __self.canvas.getWidth()/2,
+        top: obj.aCoords.br.y + 50,
+        fontFamily: _font,
+        fontSize: 10,
+        'originX': 'center',
+        'originY': 'center'
+      });
+      text.jsonProperty = {
+        displayText: _text,
+        shadow : {
+          'color': 'black',
+          'blur': 0,
+          'offsetX': 0,
+          'offsetY': 0,
+          'on': false
+        }
+      }
+      text.name = "simpleText"; 
+      __self.applyFontStyle({family:_font}, '3', 'direct', text);
+      __self.canvas.add(obj).renderAll(); 
+      var _fontScale = (__self.canvas.width-150) / text.width;
+      text.set('fontSize', text.fontSize * _fontScale);
+      text.set('fill', textColor);
+      text.set('stroke', _strokeColor);
+      text.set('strokeWidth', 1);
+      __self.canvas.add(text); 
+      var text_1 = new fabric.Text("Slogan Here", {
+        left: __self.canvas.getWidth()/2,
+        top: text.aCoords.br.y + 10,
+        fontFamily: _font,
+        fontSize: 20,
+        'originX': 'center',
+        'originY': 'center'
+      });
+      text_1.jsonProperty = {
+        displayText: _text,
+        shadow : {
+          'color': 'black',
+          'blur': 0,
+          'offsetX': 0,
+          'offsetY': 0,
+          'on': false
+        }
+      }
+      text_1.name = "simpleText"; 
+      __self.applyFontStyle({family:_font}, '4', 'direct', text_1);
+      var _fontScale = (__self.canvas.width-100) / text_1.width;
+      var num = _fontScale.toString();
+      num = num.slice(0, (num.indexOf(".")+2));
+      _fontScale = Number(num);
+      text_1.set('fontSize', (text_1.fontSize * _fontScale));
+      text.set('fill', text_1Color);
+      __self.canvas.add(text_1); 
+      if(backgroundColor)
+      __self.canvas.backgroundColor = backgroundColor;
+    });
+    
   }
 
 

@@ -87,7 +87,7 @@
                 </span> 
               <ul class="dropdown-menu scrollable-menu" role="menu" > 
                   <li *ngFor="let option of fontFamily;index as i " [ngClass]="{'selected': selectedFontIndex == i}" (click)='applyFontStyle(option, i)'>
-                    <span style="margin-left: 10px;">{{option.family}}</span>
+                    <span [ngStyle]="{'font-family': option.family}" style="margin-left: 10px;">{{option.family}}</span>
                   </li> 
               </ul> 
           </div>

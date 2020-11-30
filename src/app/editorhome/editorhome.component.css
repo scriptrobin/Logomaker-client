@@ -177,7 +177,7 @@ body {
   position: relative;
   overflow: hidden!important;
   transition: all .3s ease-in-out;  
-  padding: 7px;
+  padding-top: 4px;
   user-select: none;
   text-align: center;
   text-transform: capitalize;
@@ -1091,7 +1091,7 @@ select {
     display:inline-block; 
     width: 66px;
     top: 2px;
-    height: 29px;
+    height: 26px;
     border-radius: 50px;
     border: 1px solid #BABABA !important;
     font-size: 11px !important;
