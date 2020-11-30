@@ -632,7 +632,7 @@ export class EditorhomeComponent implements OnInit {
   getSearchIcons(type) { 
     var headers = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG', 
+        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG',  
         'Content-Type':'text/plain; charset=utf-8',
         'noAuth': "true"
       })
