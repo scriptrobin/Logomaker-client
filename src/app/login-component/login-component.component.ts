@@ -18,6 +18,7 @@ export class LoginComponentComponent implements OnInit {
    validMail;
    showLogIn = false;
    showRegister = false;
+   showLoaderLogin = false;
    aletMsg = 'Invalid Email address';
    selectedTab = "login";
   constructor(public userService: UserService, private router:Router) { }
@@ -41,13 +42,16 @@ export class LoginComponentComponent implements OnInit {
   onRegister(form: NgForm) {
     this.validMail =  this.emailRegex.test(this.userService.SelectedUser.email);
     if(this.validMail) {
+      this.showLoaderLogin = true;
       this.userService.postUser(this.userService.SelectedUser).subscribe((res)=> {
         this.showRegister = true; 
+        this.showLoaderLogin = false;
         this.userService.SelectedUser.email = '';
         this.userService.SelectedUser.password = '';
         this.userService.SelectedUser.fullName = '';
       }, (err)=> {
         this.validMail = false;
+        this.showLoaderLogin = false;
         this.aletMsg=err.error[0]; 
       }); 
     }
@@ -59,11 +63,14 @@ export class LoginComponentComponent implements OnInit {
   doLogin() {
     this.validMail =  this.emailRegex.test(this.model.email);
     if(this.validMail) {
+      this.showLoaderLogin = true;
       this.userService.login(this.model).subscribe((res) =>{
         this.showLogIn = true;
+        this.showLoaderLogin = false;
         this.userService.setToken(res['token']); 
         this.router.navigateByUrl('/dashboard');
       }, (err) =>{
+        this.showLoaderLogin = false;
         this.validMail = false;
         this.aletMsg = err.error.message;
       });

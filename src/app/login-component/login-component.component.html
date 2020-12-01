@@ -29,7 +29,9 @@
             <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="model.password" [ngModelOptions]="{standalone: true}" required/>
           </div>
           <div class="u-form-group"> 
-            <input type="submit" class="btn btn-primary rounded-pill" [disabled]='!password.valid || !email.valid' value="Login" style="width: 146px;"> 
+            <input type="submit" class="btn btn-primary rounded-pill" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid' value="Login" style="width: 146px;">
+            <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
+            
           </div>
           <div class="u-form-group">
             <a href="#" class="forgot-password">Forgot password?</a>
@@ -52,7 +54,8 @@
             <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="userService.SelectedUser.password" [ngModelOptions]="{standalone: true}" required/> 
           </div>
           <div class="u-form-group"> 
-            <input type="submit" [disabled]='!password.valid || !email.valid || !fullName.valid' class="btn btn-primary rounded-pill" value="Register" style="width: 146px;">
+            <input type="submit" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid || !fullName.valid' class="btn btn-primary rounded-pill" value="Register" style="width: 146px;">
+            <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
           </div>
           <div class="alert alert-danger" role="alert" *ngIf="validMail==false" style="height: 36px;padding: 5px;"> 
             {{aletMsg}}
