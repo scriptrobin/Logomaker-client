@@ -122,7 +122,7 @@ export class DashboardComponent implements OnInit {
   getSearchIcons(type, callback) { 
     var headers = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer gstjVMDz6rOIMhbqncn5MvvBYL1f9GUy9cJayjzqLfNE3halF28u5U0GkSIDkI32', 
+        'authorization': 'Bearer '+environment.apiIconKey, 
         'Content-Type':'text/plain; charset=utf-8',
         'noAuth': "true"
       })
@@ -173,7 +173,7 @@ export class DashboardComponent implements OnInit {
   getSvgIcon(data,index, callback) { 
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer 4Lb0OMq5DBI4t9qEWYNS0Zzhg47Tuye5rPSZSgmjhVPoeKXeDFOyzgUqB7WrjNN0',
+        'authorization': 'Bearer '+environment.apiIconKey,
         'Access-Control-Allow-Origin': 'http://localhost:4200' ,
         "Access-Control-Allow-Methods":"GET, POST",
         'noAuth': "true"

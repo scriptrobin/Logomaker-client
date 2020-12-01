@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import FontFaceObserver from 'fontfaceobserver'
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-editorhome',
   templateUrl: './editorhome.component.html',
@@ -634,7 +635,7 @@ export class EditorhomeComponent implements OnInit {
   getSearchIcons(type) { 
     var headers = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer 4Lb0OMq5DBI4t9qEWYNS0Zzhg47Tuye5rPSZSgmjhVPoeKXeDFOyzgUqB7WrjNN0',  
+        'authorization': 'Bearer '+environment.apiIconKey,  
         'Content-Type':'text/plain; charset=utf-8',
         'noAuth': "true"
       })
@@ -692,7 +693,7 @@ export class EditorhomeComponent implements OnInit {
   getSvgIcon(data) { 
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG',
+        'authorization': 'Bearer '+environment.apiIconKey,
         'Access-Control-Allow-Origin': 'http://localhost:4200' ,
         "Access-Control-Allow-Methods":"GET, POST",
         'noAuth': "true"
