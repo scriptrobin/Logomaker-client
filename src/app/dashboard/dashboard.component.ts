@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   logos = [];
   fontIndex = 0;
   showLoader=false;
+  showLazyLoading=true;
   constructor(private router: Router, private userService: UserService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -88,7 +89,8 @@ export class DashboardComponent implements OnInit {
         function _asyncCanvas(key, svgUrl) {
           if(key == _self.svgUrl.length) {
             return;
-          }
+          } 
+          _self.showLazyLoading=true;
           var _width = _self.cardChart.nativeElement.getBoundingClientRect().width;
           var _height = _self.cardChart.nativeElement.getBoundingClientRect().height;
           _self.thumbCanvas = new fabric.StaticCanvas('logoContainer_'+key, {
@@ -96,7 +98,7 @@ export class DashboardComponent implements OnInit {
             selectionBorderColor: 'blue',
             backgroundColor: 'rgb(255,255,255)',
             width: parseInt(_width),
-            height: parseInt(_height)-50
+            height: parseInt(_height)
           });
           if(!svgUrl) {
             // _self.logos.splice(key, 1);
@@ -107,6 +109,7 @@ export class DashboardComponent implements OnInit {
           _self.fontIndex = key;
           _self.getSvgIcon(svgUrl,key, function() {
             key++;
+            
             _asyncCanvas(key, _self.svgUrl[key]);
           });
         }
@@ -156,7 +159,8 @@ export class DashboardComponent implements OnInit {
       for(var i=0;i<this.svgUrl.length;i++) {
         this.logos.push({
           'id': 'logoContainer_'+i,
-          'text': this.iconName
+          'text': this.iconName,
+          'lazyLoad': true
         });
       }
       setTimeout( () => {
@@ -256,6 +260,7 @@ export class DashboardComponent implements OnInit {
         if(_colors&&_colors[3] && text.fill != _colors[3]) {
           __self.thumbCanvas.backgroundColor =_colors[3];
         }
+        __self.logos[index].lazyLoad = false;
         __self.logos[index].textColor = text.fill;
         __self.logos[index].text_1Color = text_1.fill;
         __self.logos[index].fontFamily = text.fontFamily;
