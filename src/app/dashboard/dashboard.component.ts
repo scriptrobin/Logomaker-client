@@ -27,10 +27,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getUserProfile(); 
     this.getGoogleFonts();
-    this.logos.push({
-      id: 'logoContainer_0',
-      text: 'Logomaker'
-    })
+      /* this.logos.push({
+        id: 'logoContainer_0',
+        text: 'Logomaker'
+      }) */
   }
 
   @ViewChild('cardChart') cardChart; 
@@ -80,13 +80,13 @@ export class DashboardComponent implements OnInit {
             return;
           }
           var _width = _self.cardChart.nativeElement.getBoundingClientRect().width;
-          var _height = _self.cardChart.nativeElement.getBoundingClientRect().height-50;
+          var _height = _self.cardChart.nativeElement.getBoundingClientRect().height;
           _self.thumbCanvas = new fabric.StaticCanvas('logoContainer_'+key, {
             selection: true,
             selectionBorderColor: 'blue',
             backgroundColor: 'rgb(255,255,255)',
             width: parseInt(_width),
-            height: parseInt(_height)
+            height: parseInt(_height)-50
           });
           if(!svgUrl) {
             // _self.logos.splice(key, 1);
