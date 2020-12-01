@@ -39,7 +39,10 @@ export class DashboardComponent implements OnInit {
     console.log(selectedlogo);
 
     localStorage.setItem('selectedLogo', JSON.stringify(this.logos[index]));
-    this.router.navigate(['/editorhome']);
+    const { protocol, host } = window.location;
+    const url = `${protocol}//${host}/editorhome`;
+    window.open(url,'_blank');
+    // this.router.navigate(['/editorhome']).then(result => {  window.open(window.location.href, '_blank'); });
   }
 
   userLogout() {
@@ -206,7 +209,7 @@ export class DashboardComponent implements OnInit {
         __self.thumbCanvas.add(obj).renderAll();
         obj.setCoords(); 
         var _text = __self.iconName;
-        var _font = "Cantora One";
+        var _font =__self.fontFamily[__self.fontIndex].family;
         var text = new fabric.Text(_text, {
           left: __self.thumbCanvas.getWidth()/2,
           top: obj.aCoords.br.y + 30,
@@ -228,12 +231,12 @@ export class DashboardComponent implements OnInit {
         var text_1 = new fabric.Text("Slogan Here", {
           left: __self.thumbCanvas.getWidth()/2,
           top: text.aCoords.br.y + 30,
-          fontFamily: _font,
+          fontFamily: "Cantora One",
           fontSize: 3,
           'originX': 'center',
           'originY': 'center'
         });
-        __self.applyFontStyle(__self.fontFamily[__self.fontIndex], 'direct', text_1);
+        __self.applyFontStyle({family: "Cantora One"}, 'direct', text_1);
         var _fontScale = (__self.thumbCanvas.width-250) / text_1.width;
         var num = _fontScale.toString();
         num = num.slice(0, (num.indexOf(".")+2));
@@ -248,7 +251,8 @@ export class DashboardComponent implements OnInit {
         }
         __self.logos[index].textColor = text.fill;
         __self.logos[index].text_1Color = text_1.fill;
-        __self.logos[index].fontFamily = text_1.fontFamily;
+        __self.logos[index].fontFamily = text.fontFamily;
+        __self.logos[index].fontFamily_1 = text_1.fontFamily;
         __self.logos[index].strokeColor = text.stroke;
         __self.logos[index].svg = response;
         __self.logos[index].backgroundColor = __self.thumbCanvas.backgroundColor;

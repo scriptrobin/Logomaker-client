@@ -760,6 +760,7 @@ export class EditorhomeComponent implements OnInit {
     }
     var _text = __self.selectedLogo['text'];
     var _font = __self.selectedLogo['fontFamily'];
+    var _font_1 = __self.selectedLogo['fontFamily_1'];
     var _strokeColor = __self.selectedLogo['strokeColor'];
     var textColor = __self.selectedLogo['textColor'];
     var text_1Color = __self.selectedLogo['text_1Color'];
@@ -839,7 +840,7 @@ export class EditorhomeComponent implements OnInit {
         }
       }
       text_1.name = "simpleText"; 
-      __self.applyFontStyle({family:_font}, '4', 'direct', text_1);
+      __self.applyFontStyle({family:_font_1}, '4', 'direct', text_1);
       var _fontScale = (__self.canvas.width-100) / text_1.width;
       var num = _fontScale.toString();
       num = num.slice(0, (num.indexOf(".")+2));
