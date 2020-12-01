@@ -259,6 +259,7 @@ export class DashboardComponent implements OnInit {
         __self.thumbCanvas.add(text_1); 
         if(_colors&&_colors[3] && text.fill != _colors[3]) {
           __self.thumbCanvas.backgroundColor =_colors[3];
+          __self.logos[index].backgroundColor = _colors[3];
         }
         __self.logos[index].lazyLoad = false;
         __self.logos[index].textColor = text.fill;
@@ -267,7 +268,6 @@ export class DashboardComponent implements OnInit {
         __self.logos[index].fontFamily_1 = text_1.fontFamily;
         __self.logos[index].strokeColor = text.stroke;
         __self.logos[index].svg = response;
-        __self.logos[index].backgroundColor = __self.thumbCanvas.backgroundColor;
         callback();
       });
     }, function(err){
