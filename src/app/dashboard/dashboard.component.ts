@@ -61,8 +61,8 @@ export class DashboardComponent implements OnInit {
       selection: true,
       selectionBorderColor: 'blue',
       backgroundColor: 'rgb(255,255,255)',
-      width: 312,
-      height: 212
+      width: 323,
+      height: 223
     });
     
   }
@@ -81,8 +81,8 @@ export class DashboardComponent implements OnInit {
             selection: true,
             selectionBorderColor: 'blue',
             backgroundColor: 'rgb(255,255,255)',
-            width: 373,
-            height: 272
+            width: 323,
+            height: 223
           });
           if(!svgUrl) {
             // _self.logos.splice(key, 1);
