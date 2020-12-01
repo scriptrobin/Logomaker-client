@@ -11,7 +11,7 @@
           <a (click)='showLoginorRegister("login")' [ngClass]="{'active': selectedTab == 'login'}" id="login-box-link">Login</a>
           <a  (click)='showLoginorRegister("register")' [ngClass]="{'active': selectedTab == 'register'}" id="signup-box-link" >Register</a>
         </div>
-        <div class="social-login">
+        <!-- <div class="social-login">
           <a href="#" class="rounded-pill">
             <i class="fa fa-facebook fa-lg"></i>
             Login with facebook
@@ -20,7 +20,7 @@
             <i class="fa fa-google-plus fa-lg"></i>
             Login with Google
           </a>
-        </div>
+        </div> -->
         <form *ngIf="selectedTab == 'login'" class="email-login" #signInForm="ngForm" (ngSubmit)="signInForm.valid && doLogin()">
           <div class="u-form-group">
             <input type="email" placeholder="Email" #email="ngModel" [(ngModel)]="model.email" [ngModelOptions]="{standalone: true}" required/>
