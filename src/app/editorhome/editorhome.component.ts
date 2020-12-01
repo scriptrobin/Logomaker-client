@@ -823,7 +823,7 @@ export class EditorhomeComponent implements OnInit {
       __self.canvas.add(text); 
       var text_1 = new fabric.Text("Slogan Here", {
         left: __self.canvas.getWidth()/2,
-        top: text.aCoords.br.y + 10,
+        top: text.top + text.height,
         fontFamily: _font,
         fontSize: 20,
         'originX': 'center',
