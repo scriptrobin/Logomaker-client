@@ -281,7 +281,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getGoogleFonts() {
-    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyB-6n9BF8_zIip-mkCYZfU2IglVQBFqh5M').subscribe((responseData: any) => {
+    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe((responseData: any) => {
       this.fontFamily = responseData.items;
     })
   }  
