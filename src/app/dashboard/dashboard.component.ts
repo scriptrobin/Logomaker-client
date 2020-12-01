@@ -179,8 +179,8 @@ export class DashboardComponent implements OnInit {
         obj.originX = 'center';
         obj.originY = 'center';
         obj.name = "shapes";
-        var widRatio = (__self.thumbCanvas.getWidth() -200) /obj.width;
-        var heiRatio = (__self.thumbCanvas.getHeight() - 200 )/obj.height;
+        var widRatio = (__self.thumbCanvas.getWidth() -150) /obj.width;
+        var heiRatio = (__self.thumbCanvas.getHeight() - 150 )/obj.height;
         if(widRatio  < heiRatio) {
           obj.scaleX = widRatio;
           obj.scaleY = widRatio;
