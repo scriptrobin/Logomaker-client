@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { fabric } from 'fabric';
-import FontFaceObserver from 'fontfaceobserver'
+import FontFaceObserver from 'fontfaceobserver';
+import {environment} from '../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -40,8 +41,14 @@ export class DashboardComponent implements OnInit {
 
     localStorage.setItem('selectedLogo', JSON.stringify(this.logos[index]));
     const { protocol, host } = window.location;
-    const url = `${protocol}//${host}/editorhome`;
-    window.open(url,'_blank');
+    if(environment.production) {
+      const url = `${protocol}//${host}/Logomaker-client/editorhome`;
+      window.open(url,'_blank');
+    }
+    else {
+      const url = `${protocol}//${host}/editorhome`;
+      window.open(url,'_blank');
+    }
     // this.router.navigate(['/editorhome']).then(result => {  window.open(window.location.href, '_blank'); });
   }
 
