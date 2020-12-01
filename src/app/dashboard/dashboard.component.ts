@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';  
+import { Component, OnInit,   ViewChild} from '@angular/core';  
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
@@ -32,6 +32,8 @@ export class DashboardComponent implements OnInit {
       text: 'Logomaker'
     })
   }
+
+  @ViewChild('cardChart') cardChart; 
 
   goToEditor(selectedlogo, index) {
     console.log(selectedlogo);
@@ -77,12 +79,14 @@ export class DashboardComponent implements OnInit {
           if(key == _self.svgUrl.length) {
             return;
           }
+          var _width = _self.cardChart.nativeElement.getBoundingClientRect().width;
+          var _height = _self.cardChart.nativeElement.getBoundingClientRect().height-50;
           _self.thumbCanvas = new fabric.StaticCanvas('logoContainer_'+key, {
             selection: true,
             selectionBorderColor: 'blue',
             backgroundColor: 'rgb(255,255,255)',
-            width: 373,
-            height: 272
+            width: parseInt(_width),
+            height: parseInt(_height)
           });
           if(!svgUrl) {
             // _self.logos.splice(key, 1);

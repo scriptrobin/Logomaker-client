@@ -123,8 +123,8 @@
                           </div>
                       </form>
                     </div>
-                      <div class="col-md-4" *ngFor="let logo of logos;index as i" [hidden]="!logo['svg']">
-                        <div class="card card-chart" (click)="goToEditor(logo, i)">
+                      <div class="col-md-4" *ngFor="let logo of logos;index as i">
+                        <div class="card card-chart" (click)="goToEditor(logo, i)" #cardChart>
                           <canvas id={{logo.id}}></canvas>
                           <div class="card-body">
                             <h4 class="card-title">Daily Sales</h4>
