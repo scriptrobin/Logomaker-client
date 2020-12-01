@@ -611,7 +611,7 @@ export class EditorhomeComponent implements OnInit {
     link.id = font.family;
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = 'http://fonts.googleapis.com/css?family='+font.family;
+    link.href = 'https://fonts.googleapis.com/css?family='+font.family;
     link.media = 'all';
     head.appendChild(link);
     var myfont = new FontFaceObserver(font.family)
