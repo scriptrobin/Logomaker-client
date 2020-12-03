@@ -24,11 +24,18 @@ export class DashboardComponent implements OnInit {
   fontIndex = 0;
   showLoader=false;
   showLazyLoading=true;
+  iconCategories = [];
+  iconStyles = [];
+  iconListStyles = [];
+  showListIconStyle = false;
+  selectedIconIndex;
   constructor(private router: Router, private userService: UserService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getUserProfile(); 
     this.getGoogleFonts();
+    /* this.getIconCategory(); */
+    this.getIconsStyles();
       /* this.logos.push({
         id: 'logoContainer_0',
         text: 'Logomaker'
@@ -80,10 +87,15 @@ export class DashboardComponent implements OnInit {
     
   }
 
+  getIconbyCategory(category) {
+    this.keywordText = category.name;
+    this.createLogos();
+  }
+
   createLogos() {
     var _self = this;
     this.logos = [];
-    this.getSearchIcons(null, function() {
+    this.getSearchIcons(null,function() {
       function createDynamiCanvas() {
         var i=0;
         function _asyncCanvas(key, svgUrl) {
@@ -92,7 +104,7 @@ export class DashboardComponent implements OnInit {
           } 
           _self.showLazyLoading=true;
           var _width = _self.cardChart.nativeElement.getBoundingClientRect().width;
-          var _height = _self.cardChart.nativeElement.getBoundingClientRect().height;
+          var _height = 300 || _self.cardChart.nativeElement.getBoundingClientRect().height;
           _self.thumbCanvas = new fabric.StaticCanvas('logoContainer_'+key, {
             selection: true,
             selectionBorderColor: 'blue',
@@ -170,6 +182,73 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getIconCategory() {
+    var headers = {
+      headers: new HttpHeaders({
+        'authorization': 'Bearer '+environment.apiIconKey, 
+        'Content-Type':'text/plain; charset=utf-8',
+        'noAuth': "true"
+      })
+    }; 
+    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/categories?count=100", headers).subscribe((response:any)=> { 
+      this.iconCategories = [];
+      for(var i=0;i<response.categories.length;i++) {
+        var _splitted = response.categories[i].name.split(',');
+        if(_splitted.length) {
+          for(var j=0;j<_splitted.length;j++) {
+            var _obj = <any>{};
+            _obj.name  = _splitted[j].replace('& ', '');
+            _obj.identifier = response.categories[i].identifier;
+            this.iconCategories.push(_obj);
+          }
+        }
+        else {
+          this.iconCategories.push(response[i]);
+        }
+      }
+    });
+  }
+
+  getIconsStyles() {
+    var headers = {
+      headers: new HttpHeaders({
+        'authorization': 'Bearer '+environment.apiIconKey, 
+        'Content-Type':'text/plain; charset=utf-8',
+        'noAuth': "true"
+      })
+    }; 
+    this.iconStyles = [];
+    
+    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/styles?count=12", headers).subscribe((response:any)=> {
+      
+      this.iconStyles = response.styles;
+    });
+  }
+
+  getIconListbyStyles(style, index) {
+    this.selectedIconIndex = index;
+    var headers = {
+      headers: new HttpHeaders({
+        'authorization': 'Bearer '+environment.apiIconKey, 
+        'Content-Type':'text/plain; charset=utf-8',
+        'noAuth': "true"
+      })
+    }; 
+    this.iconListStyles = [];
+    var _styles = style.identifier;
+    this.showListIconStyle = true;
+    this.http.get("https://try.readme.io/https://api.iconfinder.com/v4/styles/"+_styles+"/iconsets?count=50",
+     headers).subscribe((response:any)=> {
+      this.showListIconStyle = false; 
+      for(var i=0;i<response.iconsets.length;i++) {
+        for(var j=0;j<response.iconsets[i].categories.length;j++) {
+          this.iconListStyles.push(response.iconsets[i].categories[j]);
+        }
+      }
+      console.log(response);
+    });
+  }
+
   getSvgIcon(data,index, callback) { 
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
@@ -218,8 +297,28 @@ export class DashboardComponent implements OnInit {
           }
         }
         __self.thumbCanvas.add(obj).renderAll();
-        obj.setCoords(); 
-        var _text = __self.iconName;
+        obj.setCoords();
+        if(_colors[3]) {
+          if(_colors[3] != '#FFFFFF' && _colors[3] != '#000000' && _colors[3] != "rgb(0,0,0)") {
+            var _bgColor;
+            if(_colors[3].id) {
+              _bgColor = _colors[3];
+            }
+            else {
+              _bgColor = __self.createMonoColors(_colors[3]);
+            }
+            __self.thumbCanvas.backgroundColor = _bgColor;
+            __self.logos[index].backgroundColor = __self.thumbCanvas.backgroundColor;
+          }
+          var textColor = __self.createMonoColors(_colors[3]);
+          if(textColor == __self.thumbCanvas.backgroundColor || textColor == "#ffffff" || textColor ==  "rgb(255,255,255)") {
+            textColor = __self.createMonoColors(__self.thumbCanvas.backgroundColor);
+          }
+        }
+        else {
+          textColor = "#00000";
+        }
+        var _text = __self.iconName || __self.keywordText;
         var _font =__self.fontFamily[__self.fontIndex].family;
         var text = new fabric.Text(_text, {
           left: __self.thumbCanvas.getWidth()/2,
@@ -233,11 +332,13 @@ export class DashboardComponent implements OnInit {
         __self.thumbCanvas.add(obj).renderAll(); 
         var _fontScale = (__self.thumbCanvas.width-250) / text.width;
         text.set('fontSize', text.fontSize * _fontScale);
-        if(_colors && _colors[0]) {
+        /* if(_colors && _colors[1]) {
           text.set('fill', _colors[1]);
           text.set('stroke', _colors[1]);
-        }
-        text.set('strokeWidth', 1);
+        } */
+        text.set('fill', textColor);
+        // text.set('stroke', _colors[1]);
+        // text.set('strokeWidth', 1);
         __self.thumbCanvas.add(text); 
         var text_1 = new fabric.Text("Slogan Here", {
           left: __self.thumbCanvas.getWidth()/2,
@@ -253,17 +354,15 @@ export class DashboardComponent implements OnInit {
         num = num.slice(0, (num.indexOf(".")+2));
         _fontScale = Number(num);
         text_1.set('fontSize', (text_1.fontSize * _fontScale));
-       /*  if(_colors && _colors[2]) {
-          text_1.set('fill', _colors[2]);
-        } */
-        __self.thumbCanvas.add(text_1); 
-        if(_colors&&_colors[3] && text.fill != _colors[3]) {
-          __self.thumbCanvas.backgroundColor =_colors[3];
-          __self.logos[index].backgroundColor = _colors[3];
+        var blackAndWhiteComb = ["rgb(255,255,255)", "#ffffff", "rgb(0,0,0)", '#000000']; 
+        if(blackAndWhiteComb.indexOf(__self.thumbCanvas.backgroundColor) != -1) {
+          text_1.set('fill', __self.createMonoColors(__self.thumbCanvas.backgroundColor));
         }
-        __self.logos[index].lazyLoad = false;
+        __self.thumbCanvas.add(text_1); 
+        __self.logos[index].text = _text;
         __self.logos[index].textColor = text.fill;
-        __self.logos[index].text_1Color = text_1.fill;
+        __self.logos[index].sloganColor = text_1.fill;
+        __self.logos[index].lazyLoad = false;
         __self.logos[index].fontFamily = text.fontFamily;
         __self.logos[index].fontFamily_1 = text_1.fontFamily;
         __self.logos[index].strokeColor = text.stroke;
@@ -304,6 +403,72 @@ export class DashboardComponent implements OnInit {
     this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe((responseData: any) => {
       this.fontFamily = responseData.items;
     })
-  }  
+  }
+  
+  rgbTohex(color) {
+    var arr=[]; color.replace(/[\d+\.]+/g, function(v) { arr.push(parseFloat(v)); });
+    return "#" + arr.slice(0, 3).map(toHex).join("");
+      /* return {
+          hex: "#" + arr.slice(0, 3).map(toHex).join(""),
+          opacity: arr.length == 4 ? arr[3] : 1
+      }; */
+      function toHex(int) {
+          var hex = int.toString(16);
+          return hex.length == 1 ? "0" + hex : hex;
+      }
+  }
+
+  invertColors(hex) {
+    if (hex.indexOf('#') === 0) {
+        hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        /* throw new Error('Invalid HEX color.'); */
+        return hex;
+    }
+    // invert color components
+    var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+        g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+        b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+    // pad each with zeros and return
+    return '#' + padZero(r) + padZero(g) + padZero(b);
+  
+    function padZero(str) {
+      var len = len || 2;
+      var zeros = new Array(len).join('0');
+      return (zeros + str).slice(-len);
+    }
+  }
+
+  createMonoColors(_colors) {
+      var textColor;
+      if(!_colors.id && _colors.indexOf('rgb') != -1) {
+        textColor = this.invertColors(this.rgbTohex(_colors));
+      }
+      if(_colors.type && _colors.type.indexOf('linear') != -1) {
+        if(_colors.colorStops[0] && _colors.colorStops[0].color.indexOf('rgb') != -1) {
+          textColor = this.invertColors(this.rgbTohex(_colors.colorStops[0].color));
+        }
+        else {
+          textColor = "#00000";
+        }
+      }
+      else {
+        if(_colors == "rgb(0,0,0)") {
+          textColor = this.invertColors(this.rgbTohex(_colors));
+        }
+        else if(_colors == "#00000") {
+          textColor = this.invertColors("#000000");
+        }
+        else if(_colors.indexOf('rgb') == -1){
+          textColor = this.invertColors(_colors);
+        }
+      }
+      return textColor;
+  }
 
 }

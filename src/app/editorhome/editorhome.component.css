@@ -103,8 +103,21 @@ body {
   position: fixed;
   right: 0px;
   height: calc(100% - 45px);
-  width: 260px;
+  width: 300px;
   z-index: 1;
+  top: 45px;
+  border-top: 1px solid #3a3f48;
+}
+
+.leftBlock-props {
+  background: #2b2b2b;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  left: 0px;
+  height: calc(100% - 45px);
+  width: 260px;
+  z-index: 9999;
   top: 45px;
   border-top: 1px solid #3a3f48;
 }

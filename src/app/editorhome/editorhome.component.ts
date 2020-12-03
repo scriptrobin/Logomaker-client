@@ -10,7 +10,8 @@ import {
 import * as $ from 'jquery';
 import { fabric } from 'fabric';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
-import { ColorPicker } from '@syncfusion/ej2-inputs';
+import { ColorPicker, ColorPickerEventArgs } from '@syncfusion/ej2-inputs';
+import { DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import FontFaceObserver from 'fontfaceobserver'
@@ -204,14 +205,17 @@ export class EditorhomeComponent implements OnInit {
     this.getGoogleFonts();
     this.getSearchIcons(null);
     this.selectedLogo = JSON.parse(localStorage.getItem('selectedLogo'));
-    localStorage.removeItem("selectedLogo");
+    // localStorage.removeItem("selectedLogo");
     // this.getIconfinderIcons();
+    var _font = this.selectedLogo['fontFamily'];
+    var _font_1 = this.selectedLogo['fontFamily_1'];
+    __self.applyFontStyle({family:_font}, '3', 'direct', null);
+    __self.applyFontStyle({family:_font_1}, '3', 'direct', null);
   }
 
   @ViewChild('wsContainer') wsContainer; 
   @ViewChild('zoomFit') zoomFit; 
-  @ViewChild('zoomOut') zoomOut; 
-
+  @ViewChild('zoomOut') zoomOut;  
   @HostListener('document:keydown.delete', ['$event'])
   onDeleteComponent(event: KeyboardEvent) {
     this.doObjAction("delete");
@@ -223,6 +227,7 @@ export class EditorhomeComponent implements OnInit {
       this.duplicateObject();
     }
   }
+
 
   goToSettings() {
     this.router.navigateByUrl('/dashboard');
@@ -619,10 +624,13 @@ export class EditorhomeComponent implements OnInit {
     myfont.load()
     .then(function() { 
       if(type == 'direct') {
+        if(!obj) {
+          return;
+        }
         obj.set("fontFamily", font.family);
       }
-      else {
-        _self.canvas.getActiveObject().set("fontFamily", font.family);
+      else if(_self.activeObj) {
+        _self.activeObj.set("fontFamily", font.family);
       }
       setTimeout(() =>{
         _self.canvas.requestRenderAll();
@@ -764,7 +772,7 @@ export class EditorhomeComponent implements OnInit {
     var _font_1 = __self.selectedLogo['fontFamily_1'];
     var _strokeColor = __self.selectedLogo['strokeColor'];
     var textColor = __self.selectedLogo['textColor'];
-    var text_1Color = __self.selectedLogo['text_1Color'];
+    var text_1Color = __self.selectedLogo['sloganColor'];
     var backgroundColor = __self.selectedLogo['backgroundColor'];
     var _svg = __self.selectedLogo['svg'];
     fabric.loadSVGFromString(_svg, function(objects, options) {
@@ -799,7 +807,7 @@ export class EditorhomeComponent implements OnInit {
         left: __self.canvas.getWidth()/2,
         top: obj.aCoords.br.y + 50,
         fontFamily: _font,
-        fontSize: 10,
+        fontSize: 3,
         'originX': 'center',
         'originY': 'center'
       });
@@ -814,19 +822,21 @@ export class EditorhomeComponent implements OnInit {
         }
       }
       text.name = "simpleText"; 
+      __self.applyFontStyle({family:_font}, '4', 'direct', null);
       __self.applyFontStyle({family:_font}, '3', 'direct', text);
       __self.canvas.add(obj).renderAll(); 
       var _fontScale = (__self.canvas.width-150) / text.width;
       text.set('fontSize', text.fontSize * _fontScale);
-      text.set('fill', textColor);
-      text.set('stroke', _strokeColor);
+      var __color =  __self.resolveTextColor(textColor);
+      text.set('fill', __color);
+      text.set('stroke', __color);
       text.set('strokeWidth', 1);
-      __self.canvas.add(text); 
+      __self.canvas.add(text);
       var text_1 = new fabric.Text("Slogan Here", {
         left: __self.canvas.getWidth()/2,
         top: text.top + text.height,
         fontFamily: _font,
-        fontSize: 20,
+        fontSize: 3,
         'originX': 'center',
         'originY': 'center'
       });
@@ -841,19 +851,43 @@ export class EditorhomeComponent implements OnInit {
         }
       }
       text_1.name = "simpleText"; 
+      __self.applyFontStyle({family:_font_1}, '4', 'direct', null);
       __self.applyFontStyle({family:_font_1}, '4', 'direct', text_1);
       var _fontScale = (__self.canvas.width-100) / text_1.width;
       var num = _fontScale.toString();
       num = num.slice(0, (num.indexOf(".")+2));
       _fontScale = Number(num);
+      text_1.set('fill', text_1Color);
       text_1.set('fontSize', (text_1.fontSize * _fontScale));
-      text.set('fill', text_1Color);
       __self.canvas.add(text_1); 
-      if(backgroundColor)
-      __self.canvas.backgroundColor = backgroundColor;
+      if(backgroundColor){
+        var __color =  __self.resolveTextColor(backgroundColor);
+        __self.canvas.backgroundColor = __color;
+      }
+
     });
     
   }
 
-
+  resolveTextColor(options) {
+    if(options && options.id) {
+      var gradient = new fabric.Gradient({
+        id: options.id,
+        type: 'linear',
+        coords: options['coords'],
+        colorStops: options['colorStops'],
+        gradientUnits: options['gradientUnits'],
+        gradientTransform: options['gradientTransform'],
+        offsetX: options['offsetX'],
+        offsetY: options['offsetY'],
+      });
+      return gradient;
+    }
+    else if(options) {
+      return options;
+    }
+    else {
+      return '#00000';
+    }
+  }
 }

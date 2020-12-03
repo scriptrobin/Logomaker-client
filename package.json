@@ -26,6 +26,7 @@
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@syncfusion/ej2-angular-inputs": "^18.3.44",
+    "@syncfusion/ej2-angular-splitbuttons": "^18.3.52",
     "angular-bootstrap-md": "^10.0.0",
     "bootstrap": "^4.5.3",
     "fabric": "^4.2.0",

@@ -59,19 +59,23 @@
 </nav>
 <!--/.Navbar --> 
 <div class="rightBlock">
-  <div class="container">  
-    <div class="row" *ngIf="!activeObj">
+  <div class="container">
+    <div class="row">
       <div class="col-md-12"> 
-          <label class="smallFont" style="margin-bottom: 10px;">Quick Export</label> 
-          <span style="float: right;">
-            <svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><path d="M1.39 2.688a.5.5 0 1 0-.78.624l.78-.624zM3 5.5l-.39.312a.5.5 0 0 0 .78 0L3 5.5zm2.39-2.188a.5.5 0 1 0-.78-.624l.78.624zM1 .5a.5.5 0 1 0 0 1v-1zm4 1a.5.5 0 0 0 0-1v1zM.61 3.312l2 2.5.78-.624-2-2.5-.78.624zm2.78 2.5l2-2.5-.78-.624-2 2.5.78.624zM1 1.5h4v-1H1v1z" fill="white" fill-rule="nonzero"></path></svg>
-          </span>
-          <ul class="mono">
-            <li class="wonb" (click)="exportImage('png')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>PNG</li>
-            <li class="wonb" (click)="exportImage('jpeg')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>JPEG</li>
-          </ul>
-      </div>
+        <label class="smallFont" style="margin-bottom: 10px;">Quick Export</label> 
+        <span style="float: right;">
+          <svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><path d="M1.39 2.688a.5.5 0 1 0-.78.624l.78-.624zM3 5.5l-.39.312a.5.5 0 0 0 .78 0L3 5.5zm2.39-2.188a.5.5 0 1 0-.78-.624l.78.624zM1 .5a.5.5 0 1 0 0 1v-1zm4 1a.5.5 0 0 0 0-1v1zM.61 3.312l2 2.5.78-.624-2-2.5-.78.624zm2.78 2.5l2-2.5-.78-.624-2 2.5.78.624zM1 1.5h4v-1H1v1z" fill="white" fill-rule="nonzero"></path></svg>
+        </span>
+        <ul class="mono">
+          <li class="wonb" (click)="exportImage('png')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>PNG</li>
+          <li class="wonb" (click)="exportImage('jpeg')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>JPEG</li>
+        </ul>
     </div>
+    </div>
+  </div>
+</div>
+<div class="rightBlock" [hidden]="!activeObj">
+  <div class="container" >
     <hr *ngIf="!activeObj" style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
     <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
       <label class="smallFont">Text to display</label>
@@ -112,12 +116,12 @@
             <label class="smallFont">Text color</label>
             <label class="color-field-label">
               <div class="color-field">
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>
                 <label class="smallFont" style="margin-right: 15px">Solid</label> 
-                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
               </div>
             </label> 
           </div> 
-          <div class="col-md-6">
+         <!--  <div class="col-md-6">
             <label class="smallFont">Font size</label>
             <label class="color-field-label">
               <div class="color-field">
@@ -125,7 +129,7 @@
                 <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
               </div>
             </label> 
-          </div> 
+          </div>  -->
         </div>
       </div>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
@@ -219,8 +223,8 @@
             <label class="smallFont">Shadow</label>
             <label class="color-field-label" *ngIf="switchShadow">
               <div class="color-field" style="transition: all 1s ease;">
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
                 <label class="smallFont" style="margin-right: 15px">Solid</label> 
-                <input ejs-colorpicker type="color" class="form-control" [enableRtl]="true" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
               </div>
             </label> 
           </div> 
@@ -262,8 +266,8 @@
           <label class="smallFont">Fill color</label>
           <label class="color-field-label">
             <div class="color-field">
-              <label class="smallFont" style="margin-right: 15px">Solid</label> 
               <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="fillColorValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShapesColor($event)"/>  
+              <label class="smallFont" style="margin-right: 15px">Solid</label> 
             </div>
           </label> 
         </div> 
@@ -271,8 +275,8 @@
           <label class="smallFont">Border color</label>
           <label class="color-field-label">
             <div class="color-field">
-              <label class="smallFont" style="margin-right: 15px">Solid</label> 
               <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="shapeBorderValue" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeBorderColor($event)"/>  
+              <label class="smallFont" style="margin-right: 15px">Solid</label> 
             </div>
           </label> 
         </div> 
@@ -324,8 +328,8 @@
             <label class="smallFont">Shadow</label>
             <label class="color-field-label" *ngIf="switchShadow">
               <div class="color-field" style="transition: all 1s ease;">
+                <input ejs-colorpicker type="color" class="form-control" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
                 <label class="smallFont" style="margin-right: 15px">Solid</label> 
-                <input ejs-colorpicker type="color" class="form-control" [enableRtl]="true" id="colorpicker" [(ngModel)]="shadowProps.color" name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" (select)="changeShadow($event, 'color')"/>  
               </div>
             </label> 
           </div> 

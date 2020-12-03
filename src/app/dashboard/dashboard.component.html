@@ -98,10 +98,10 @@
           <div class="container-fluid" *ngIf="selectedTab=='dashboard'">
             
           </div>
-          <div class="content" *ngIf="selectedTab=='dashboard'">
+          <div class="content" [hidden]="selectedTab=='userProfile' || selectedTab=='Upgrade'">
             <div class="container-fluid">
               <div class="row">
-                  <div class="col-md-12"> 
+                  <div class="col-md-12" style="background: #e6e6e6"> 
                       <form>
                         <div class="row"> 
                             <div class="col-md-4">
@@ -122,23 +122,63 @@
                             </div>
                           </div>
                       </form>
+                      <div class="row"> 
+                          <!-- <div class="col-md-4">
+                              <div class="btn-group" mdbDropdown>
+                                  <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle waves-light"
+                                    mdbWavesEffect style="width: 192px;display: inline-block;">
+                                    Category
+                                  </button>
+                                  <div class="dropdown-menu dropdown-primary" style="height: 274px;overflow-y: auto;">
+                                    <a class="dropdown-item" *ngFor='let category of iconCategories' (click)='getIconbyCategory(category)'>{{category.name}}</a>                                    
+                                  </div>
+                                </div>
+                          </div> -->
+                          <div class="col-md-4">
+                              <div class="btn-group" mdbDropdown>
+                                  <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle waves-light"
+                                    mdbWavesEffect style="width: 192px;display: inline-block;">
+                                    Icon Styles
+                                  </button>
+                                  <div class="dropdown-menu dropdown-primary" style="height: 274px;overflow-y: auto;">
+                                    <a class="dropdown-item" *ngFor='let style of iconStyles;index as i' (click)='getIconListbyStyles(style, i)' [ngClass]="{'active': selectedIconIndex == i}">{{style.name}}</a>
+                                  </div>
+                                </div>
+                          </div>
+                          <div class="col-md-4" >
+                              <div *ngIf="showListIconStyle" style="position: relative;width: 100%;height: 100%;text-align: center;vertical-align: middle;justify-content: center;align-items: center;display: flex;">
+                                <span ><i class="fas fa-spinner fa-spin"></i></span>
+                              </div>
+                              <div class="btn-group" mdbDropdown *ngIf="iconListStyles.length">
+                                  <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle waves-light"
+                                    mdbWavesEffect style="width: 192px;display: inline-block;">
+                                    Specific List
+                                  </button>
+                                  <div class="dropdown-menu dropdown-primary" style="height: 274px;overflow-y: auto;">
+                                    <a class="dropdown-item" *ngFor='let lstyle of iconListStyles' (click)='getIconbyCategory(lstyle)'>{{lstyle.name}}</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </div>
+                    <div class="row"> 
                       <div class="col-md-4" *ngFor="let logo of logos;index as i" >
-                        <div class="card card-chart" (click)="goToEditor(logo, i)" #cardChart style="cursor: pointer;height: 300px;">
+                        <div class="card card-chart" #cardChart style="height: 400px;">
                           <canvas id={{logo.id}}></canvas>
                           <!-- <div class="card-body">
                             <h4 class="card-title">Daily Sales</h4>
                             <p class="card-category">
                               <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-                          </div>
-                          <div class="card-footer">
-                            <div class="stats">
-                              <i class="material-icons">access_time</i> updated 4 minutes ago
-                            </div>
                           </div> -->
+                          <hr style="border-top: 1px solid rgba(208,208,208,.5);margin: 0px;" *ngIf='!logo.lazyLoad'>
+                          <div class="card-footer" *ngIf='!logo.lazyLoad'>
+                              <button class="btn btn-primary" (click)="goToEditor(logo, i)" style="border-radius: 2px;background: #24a810 !important;width: 150px;">Edit</button> 
+                              <button class="btn btn-primary" (click)="goToEditor(logo, i)" style="border-radius: 2px;background: none;border: 1px solid;color:black;width: 150px;">Download</button> 
+                          </div>
                         </div>
                         <div *ngIf='logo.lazyLoad' style="left: 0px;top: 0px;height: 100%;width: 100%;position: absolute;text-align: center"><div class="lds-dual-ring"></div></div>
                       </div>
+                    </div>
                 </div>
             </div>
           </div>
