@@ -19783,6 +19783,28 @@
       transform: rotate(360deg);
     }
   }
+
+  .card-btn-edit {
+    padding: 0px;
+    border-radius: 2px;
+    background: #24a810 !important;
+    
+    color: black;
+    width: 135px;
+    height: 30px;
+    margin: 0px;
+  }
+
+  .card-btn-download{
+    padding: 0px;
+    border: 1px solid black !important;
+    border-radius: 2px;
+    color: black !important;
+    background: none !important; 
+    width: 135px;
+    height: 30px;
+    margin: 0px;
+  }
   
   
   /*# sourceMappingURL=dashboard-free.css.map */
