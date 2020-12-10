@@ -22,13 +22,13 @@ export class DashboardComponent implements OnInit {
   fontFamily;
   logos = [];
   fontIndex = 0;
-  showLoader=false;
-  showLazyLoading=true;
+  showLoader:boolean=false;
+  showLazyLoading:boolean=true;
   iconCategories = [];
   iconStyles = [];
   iconListStyles = [];
-  showListIconStyle = false;
-  selectedIconIndex;
+  showListIconStyle:boolean = false;
+  selectedIconIndex: any;
   constructor(private router: Router, private userService: UserService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -45,8 +45,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('cardChart') cardChart; 
 
   goToEditor(selectedlogo, index) {
-    console.log(selectedlogo);
-
+    delete this.logos[index].canvas;
     localStorage.setItem('selectedLogo', JSON.stringify(this.logos[index]));
     const { protocol, host } = window.location;
     if(environment.production) {
@@ -318,31 +317,32 @@ export class DashboardComponent implements OnInit {
         else {
           textColor = "#00000";
         }
-        var _text = __self.iconName || __self.keywordText;
+        var _text = __self.iconName || "Logo Text Here";
         var _font =__self.fontFamily[__self.fontIndex].family;
         var text = new fabric.Text(_text, {
           left: __self.thumbCanvas.getWidth()/2,
           top: obj.aCoords.br.y + 30,
           fontFamily: _font,
-          fontSize: 7,
+          // fontSize: 7,
           'originX': 'center',
           'originY': 'center'
         });
         __self.applyFontStyle(__self.fontFamily[__self.fontIndex], 'direct', text);
         __self.thumbCanvas.add(obj).renderAll(); 
-        var _fontScale = (__self.thumbCanvas.width-250) / text.width;
+        var _fontScale = (__self.thumbCanvas.width-200) / text.width;
         text.set('fontSize', text.fontSize * _fontScale);
-        /* if(_colors && _colors[1]) {
-          text.set('fill', _colors[1]);
-          text.set('stroke', _colors[1]);
-        } */
         text.set('fill', textColor);
-        // text.set('stroke', _colors[1]);
-        // text.set('strokeWidth', 1);
         __self.thumbCanvas.add(text); 
+        var _sloganHieght;
+        if(text.aCoords.br.y >= __self.thumbCanvas.height) {
+          _sloganHieght = __self.thumbCanvas.height-30;
+        }
+        else {
+          _sloganHieght = text.aCoords.br.y+10;
+        }
         var text_1 = new fabric.Text("Slogan Here", {
           left: __self.thumbCanvas.getWidth()/2,
-          top: text.aCoords.br.y + 30,
+          top: _sloganHieght,
           fontFamily: "Cantora One",
           fontSize: 3,
           'originX': 'center',
@@ -359,6 +359,7 @@ export class DashboardComponent implements OnInit {
           text_1.set('fill', __self.createMonoColors(__self.thumbCanvas.backgroundColor));
         }
         __self.thumbCanvas.add(text_1); 
+        __self.logos[index].canvas = __self.thumbCanvas;
         __self.logos[index].text = _text;
         __self.logos[index].textColor = text.fill;
         __self.logos[index].sloganColor = text_1.fill;
@@ -398,6 +399,31 @@ export class DashboardComponent implements OnInit {
       console.log(e) 
     }); 
   }
+
+  downloadThumb(index) {
+    if(this.logos[index].canvas) {
+      var canvas = this.logos[index].canvas;
+      var blob;
+      blob = this.dataURLtoBlob(canvas.toDataURL('image/png'));
+      const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+      a.href = URL.createObjectURL(blob);
+      a.download = "Untitled";
+      document.body.appendChild(a);
+      a.click();        
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blob);
+    }
+  }
+
+  dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+  }
+  
 
   getGoogleFonts() {
     this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe((responseData: any) => {

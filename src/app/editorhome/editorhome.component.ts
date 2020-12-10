@@ -25,6 +25,7 @@ import { environment } from '../../environments/environment';
 export class EditorhomeComponent implements OnInit {
   userProfile;
   activeObj;
+  userText;
   propstxt: string;
   displayText: string = "test";
   colorValue = '#000';
@@ -44,6 +45,8 @@ export class EditorhomeComponent implements OnInit {
   leftBlockTransit=false;
   iconSearchtxt='abstract';
   svgUrl=[];
+  iconColors = [];
+  existiconColors=[];
   iconsLoader=false;
   loadmoreCount = 40;
   _scale = 1;
@@ -205,7 +208,7 @@ export class EditorhomeComponent implements OnInit {
     this.getGoogleFonts();
     this.getSearchIcons(null);
     this.selectedLogo = JSON.parse(localStorage.getItem('selectedLogo'));
-    // localStorage.removeItem("selectedLogo");
+    localStorage.removeItem("selectedLogo");
     // this.getIconfinderIcons();
     var _font = this.selectedLogo['fontFamily'];
     var _font_1 = this.selectedLogo['fontFamily_1'];
@@ -590,6 +593,8 @@ export class EditorhomeComponent implements OnInit {
     this.charSpaceValue = this.activeObj.charSpacing;
     this.switchShadow =  this.activeObj.jsonProperty.shadow ? true :false; 
     this.shadowProps = JSON.parse(JSON.stringify(this.activeObj.jsonProperty.shadow));
+    this.userText = this.activeObj.text;
+    this.fontsizeValue = this.activeObj.fontSize;
   }
 
   onObjectDeselected(ev, args) {
@@ -603,8 +608,8 @@ export class EditorhomeComponent implements OnInit {
     this.propstxt = obj.name;
   }
 
-  updateSimpleText() {
-    // this.activeObj.text = this.activeObj.text;
+  updateSimpleText(userTextField) {
+    this.activeObj.text = userTextField.value;
     this.canvas.renderAll();
   }
 
@@ -740,6 +745,16 @@ export class EditorhomeComponent implements OnInit {
         __self.canvas.add(obj).renderAll();
         obj.setCoords();
         __self.setActiveObject(obj);
+        if(obj._objects) {
+          var existiconColors = [];
+          for(var j=0;j<obj._objects.length;j++) {
+            if(obj._objects[j].fill!= '') {
+              existiconColors.push(obj._objects[j].fill);
+            }
+          }
+          obj.jsonProperty.existiconColors = [...new Set(existiconColors)];
+          obj.jsonProperty.iconColors = [...new Set(existiconColors)];
+        }
       });
     }, function(err){
       console.log(err);
@@ -802,12 +817,21 @@ export class EditorhomeComponent implements OnInit {
         obj.scaleY = heiRatio;
       } 
       obj.setCoords();
-      
+     var existiconColors = [];
+      if(obj._objects) {
+        for(var j=0;j<obj._objects.length;j++) {
+          if(obj._objects[j].fill!= '') {
+            existiconColors.push(obj._objects[j].fill);
+          }
+        }
+        obj.jsonProperty.existiconColors = [...new Set(existiconColors)];
+        obj.jsonProperty.iconColors = [...new Set(existiconColors)];
+        
+      }
       var text = new fabric.Text(_text, {
         left: __self.canvas.getWidth()/2,
         top: obj.aCoords.br.y + 50,
         fontFamily: _font,
-        fontSize: 3,
         'originX': 'center',
         'originY': 'center'
       });
@@ -825,18 +849,25 @@ export class EditorhomeComponent implements OnInit {
       __self.applyFontStyle({family:_font}, '4', 'direct', null);
       __self.applyFontStyle({family:_font}, '3', 'direct', text);
       __self.canvas.add(obj).renderAll(); 
-      var _fontScale = (__self.canvas.width-150) / text.width;
+      var _fontScale = (__self.canvas.width-200) / text.width;
       text.set('fontSize', text.fontSize * _fontScale);
       var __color =  __self.resolveTextColor(textColor);
       text.set('fill', __color);
       text.set('stroke', __color);
       text.set('strokeWidth', 1);
       __self.canvas.add(text);
+      __self.setActiveObject(text);
+      var _sloganHieght;
+        if(text.aCoords.br.y >= __self.canvas.height) {
+          _sloganHieght = __self.canvas.height-30;
+        }
+        else {
+          _sloganHieght = text.aCoords.br.y+15;
+        }
       var text_1 = new fabric.Text("Slogan Here", {
         left: __self.canvas.getWidth()/2,
-        top: text.top + text.height,
+        top: _sloganHieght,
         fontFamily: _font,
-        fontSize: 3,
         'originX': 'center',
         'originY': 'center'
       });
@@ -853,7 +884,7 @@ export class EditorhomeComponent implements OnInit {
       text_1.name = "simpleText"; 
       __self.applyFontStyle({family:_font_1}, '4', 'direct', null);
       __self.applyFontStyle({family:_font_1}, '4', 'direct', text_1);
-      var _fontScale = (__self.canvas.width-100) / text_1.width;
+      var _fontScale = (__self.canvas.width-250) / text_1.width;
       var num = _fontScale.toString();
       num = num.slice(0, (num.indexOf(".")+2));
       _fontScale = Number(num);
@@ -867,6 +898,18 @@ export class EditorhomeComponent implements OnInit {
 
     });
     
+  }
+
+  changeIconColors(event, index) {
+    var _color = event.currentValue.hex;
+    var obj = this.activeObj;
+    for(var jk=0;jk<obj._objects.length;jk++) {
+      if(obj._objects[jk].fill == obj.jsonProperty.existiconColors[index]) {
+        obj._objects[jk].set('fill', _color);
+      }
+    }
+    obj.jsonProperty.existiconColors[index] = _color;
+    this.canvas.requestRenderAll();
   }
 
   resolveTextColor(options) {

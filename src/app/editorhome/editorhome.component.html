@@ -79,7 +79,7 @@
     <hr *ngIf="!activeObj" style="border-top: 1px solid rgba(253, 253, 253, 0.1);"> 
     <div class="form-group no-padding" *ngIf="propstxt=='simpleText'">
       <label class="smallFont">Text to display</label>
-      <textarea class="form-control" type="text" (ngModelChange)="updateSimpleText()" [(ngModel)]="activeObj.text"  placeholder=""></textarea>
+      <textarea class="form-control" type="text" (ngModelChange)="updateSimpleText(userTextField)" [(ngModel)]="userText" #userTextField placeholder=""></textarea>
       <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);">
       <div class="form-group">
         <div class="row">
@@ -261,6 +261,20 @@
 
     </div>
     <div class="form-group no-padding" *ngIf="propstxt=='shapes'" >
+        <div class="form-group">
+          <div class="row">
+              <!--  -->
+              <div class="col-md-3" *ngFor="let fillColor of activeObj.jsonProperty.iconColors;index as i">
+                  <label class="color-field-label">
+                    <div class="color-field">
+                      <input ejs-colorpicker type="color" class="form-control" id="colorpicker"  name="colorpicker" [modeSwitcher]="false" cssClass="e-hide-value" [(ngModel)]="activeObj.jsonProperty.iconColors[i]" (change)="changeIconColors($event, i)"/>  
+                    </div>
+                    <!--  -->
+                  </label> 
+              </div> 
+          </div>
+        </div>
+        <hr style="border-top: 1px solid rgba(253, 253, 253, 0.1);" [hidden]='!activeObj.jsonProperty.iconColors || (activeObj.jsonProperty.iconColors && activeObj.jsonProperty.iconColors.length) == 0'> 
       <div class="row">
         <div class="col-md-6">
           <label class="smallFont">Fill color</label>
