@@ -1,4 +1,5 @@
 import { Component, OnInit,   ViewChild} from '@angular/core';  
+import { DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
   iconListStyles = [];
   showListIconStyle:boolean = false;
   selectedIconIndex: any;
-  constructor(private router: Router, private userService: UserService, private http: HttpClient) { }
+  favLogos = [];
+  constructor(private router: Router, private userService: UserService, private http: HttpClient,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getUserProfile(); 
@@ -45,8 +47,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('cardChart') cardChart; 
 
   goToEditor(selectedlogo, index) {
-    delete this.logos[index].canvas;
-    localStorage.setItem('selectedLogo', JSON.stringify(this.logos[index]));
+    // delete selectedlogo.canvas;
+    localStorage.setItem('selectedLogo', JSON.stringify(selectedlogo));
     const { protocol, host } = window.location;
     if(environment.production) {
       const url = `${protocol}//${host}/Logomaker-client/editorhome`;
@@ -368,6 +370,7 @@ export class DashboardComponent implements OnInit {
         __self.logos[index].fontFamily_1 = text_1.fontFamily;
         __self.logos[index].strokeColor = text.stroke;
         __self.logos[index].svg = response;
+        __self.logos[index].src = URL.createObjectURL(__self.dataURLtoBlob(__self.thumbCanvas.toDataURL('image/png')));
         callback();
       });
     }, function(err){
@@ -400,9 +403,9 @@ export class DashboardComponent implements OnInit {
     }); 
   }
 
-  downloadThumb(index) {
-    if(this.logos[index].canvas) {
-      var canvas = this.logos[index].canvas;
+  downloadThumb(logo) {
+    if(logo.canvas) {
+      var canvas = logo.canvas;
       var blob;
       blob = this.dataURLtoBlob(canvas.toDataURL('image/png'));
       const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
@@ -413,6 +416,35 @@ export class DashboardComponent implements OnInit {
       document.body.removeChild(a);
       URL.revokeObjectURL(blob);
     }
+  }
+
+  selectFav(logo) {
+    logo.isFav = !logo.isFav;
+    if(logo.isFav) {
+      this.favLogos.push({
+        id:logo.id,
+        fontFamily: logo.fontFamily,
+        fontFamily_1: logo.fontFamily_1,
+        sloganColor: logo.sloganColor,
+        svg: logo.svg,
+        text: logo.text,
+        textColor: logo.textColor,
+        src: URL.createObjectURL(this.dataURLtoBlob(logo.canvas.toDataURL('image/png')))
+      });
+    }
+    else {
+      for(var i=0; i < this.favLogos.length; i++) {
+        if(this.favLogos[i].id == logo.id) {
+          this.favLogos.splice(i, 1);
+          break;
+        }
+      }
+    }
+    console.log(this.favLogos);
+  }
+
+  removeFav(favLogo, index) {
+    this.favLogos.splice(index,1);
   }
 
   dataURLtoBlob(dataurl) {
@@ -495,6 +527,10 @@ export class DashboardComponent implements OnInit {
         }
       }
       return textColor;
+  }
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
 }

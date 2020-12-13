@@ -1180,3 +1180,19 @@ select {
     background-color: #34363c !important;
     transition: all .5s;
   }
+
+  .saveBtn{
+    align-items: center;
+    margin-top: 8px;
+    display: flex;
+    width: 80px;
+    height: 25px;
+    vertical-align: middle;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    font-family: proxima-nova,sans-serif;
+    color: #16c7ff !important;
+    border-radius: 3px;
+    border:1px solid #bababa8a;
+  }
