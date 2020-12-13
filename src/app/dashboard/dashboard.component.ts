@@ -48,7 +48,9 @@ export class DashboardComponent implements OnInit {
 
   goToEditor(selectedlogo, index) {
     // delete selectedlogo.canvas;
-    localStorage.setItem('selectedLogo', JSON.stringify(selectedlogo));
+    var _destination = fabric.util.object.clone(selectedlogo);
+    delete _destination.canvas;
+    localStorage.setItem('selectedLogo', JSON.stringify(_destination));
     const { protocol, host } = window.location;
     if(environment.production) {
       const url = `${protocol}//${host}/Logomaker-client/editorhome`;
@@ -104,7 +106,7 @@ export class DashboardComponent implements OnInit {
             return;
           } 
           _self.showLazyLoading=true;
-          var _width = _self.cardChart.nativeElement.getBoundingClientRect().width;
+          var _width = 333||_self.cardChart.nativeElement.getBoundingClientRect().width;
           var _height = 300 || _self.cardChart.nativeElement.getBoundingClientRect().height;
           _self.thumbCanvas = new fabric.StaticCanvas('logoContainer_'+key, {
             selection: true,
@@ -429,6 +431,7 @@ export class DashboardComponent implements OnInit {
         svg: logo.svg,
         text: logo.text,
         textColor: logo.textColor,
+        backgroundColor: logo.backgroundColor,
         src: URL.createObjectURL(this.dataURLtoBlob(logo.canvas.toDataURL('image/png')))
       });
     }

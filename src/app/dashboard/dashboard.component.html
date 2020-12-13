@@ -37,7 +37,7 @@
       <div class="container-fluid">
         <div class="navbar-wrapper">
           <a class="navbar-brand">
-            <h3 style="margin:0px ">My logos</h3>
+            <!-- <h3 style="margin:0px ">My logos</h3> -->
           </a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
@@ -160,13 +160,12 @@
     <div class="content" *ngIf="selectedTab=='favorite'">
         <div class="container-fluid">
           <div class="row">
-              <div class="col-md-4" *ngFor="let logo of favLogos;index as i">
+              <div class="col-md-4" [hidden]="favLogos.length==0" *ngFor="let logo of favLogos;index as i">
                 <div class="card card-chart" #cardChart style="height: 370px;">
                   <img [src]="transform(logo.src)" crossorigin="anonymous" style="width: 100%;height: 100%;">
                  <hr style="border-top: 1px solid rgba(208,208,208,.5);margin: 0px;">
-                  <div class="card-footer" *ngIf='!logo.lazyLoad'>
-                    <button class="btn btn-primary card-btn-edit" (click)="goToEditor(logo, i)">Edit</button>
-                    <button class="btn btn-primary card-btn-download" (click)="downloadThumb(logo)">Download</button>
+                  <div class="card-footer" *ngIf='!logo.lazyLoad' style="justify-content: center;">
+                    <button class="btn btn-info card-btn-default" (click)="goToEditor(logo, i)">Customize</button>
                   </div>
                   <div class="favBtn active" (click)="logo.warning=true">
                       <i class="material-icons">favorite</i>
@@ -183,13 +182,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12" *ngIf="favLogos.length == 0">
+              <div style="text-align: center">
+                <span style="font-size: 50px;font-family: 'Do Hyeon'">NO FAVORITES...</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     <div class="content" *ngIf="selectedTab=='userProfile'">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-8">
+        <div class="row" style="justify-content: center">
+         <!--  <div class="col-md-8">
             <div class="card">
               <div class="card-header card-header-primary">
                 <h4 class="card-title">Edit Profile</h4>
@@ -234,14 +238,14 @@
                 </form>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-4">
             <div class="card card-profile">
-              <div class="card-avatar">
+              <!-- <div class="card-avatar">
                 <a href="javascript:;">
                   <img class="img" src="../assets/img/faces/marc.jpg" />
                 </a>
-              </div>
+              </div> -->
               <div class="card-body">
                 <!-- <h6 class="card-category text-gray">CEO / Co-Founder</h6> -->
                 <label class="bmd-label-floating">Fist Name</label>

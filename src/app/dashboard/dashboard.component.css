@@ -19793,7 +19793,15 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
   padding: 0px;
   border-radius: 2px;
   background: #24a810 !important;
+  color: black;
+  width: 135px;
+  height: 30px;
+  margin: 0px;
+}
 
+.card-btn-default {
+  padding: 0px;
+  border-radius: 2px;
   color: black;
   width: 135px;
   height: 30px;
@@ -19834,8 +19842,18 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
   width: 100%;
   position: absolute;
   text-align: center;
-  background-color: #000000b8;
+  background-color: #000000e0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.fav-active{
+  transition: 0.5s;
+  left: 0;
+}
+
+.fav-disable{
+  transition: 0.5s;
+  left: -260px;
 }
