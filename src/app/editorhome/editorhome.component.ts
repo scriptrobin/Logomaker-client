@@ -14,6 +14,7 @@ import { ColorPicker, ColorPickerEventArgs } from '@syncfusion/ej2-inputs';
 import { DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
+import {commonService} from '../shared/editor.service';
 import FontFaceObserver from 'fontfaceobserver'
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
@@ -23,6 +24,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./editorhome.component.css']
 })
 export class EditorhomeComponent implements OnInit {
+  appDesignData: any;
   userProfile;
   activeObj;
   userText;
@@ -142,7 +144,7 @@ export class EditorhomeComponent implements OnInit {
   selectedWeight = "10";
   selectedFont = "Georgia";
   selectedLogo = '';
-  constructor(private http: HttpClient, private router: Router, private userService: UserService, private renderer:Renderer2, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService,private commonService: commonService, private renderer:Renderer2, private sanitizer: DomSanitizer) {
     
   }
   private canvas: any;
@@ -762,9 +764,17 @@ export class EditorhomeComponent implements OnInit {
   }
 
   getGoogleFonts() {
-    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe((responseData: any) => {
-      this.fontFamily = responseData.items; 
-      this.loadDynamicLogos();
+    this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe(async(responseData: any) => {
+      this.fontFamily = responseData.items;
+      await this.loadDynamicLogos();
+      if(this.selectedLogo) {
+        var canvasFile = new Blob([JSON.stringify(this.canvas.toJSON())], {type : "application/octet-stream"});
+        var fd = new FormData();
+        fd.append('upl', canvasFile, 'editor.txt');
+        this.http.post(environment.apiBaseUrl+'/create', fd).subscribe((res)=> {
+          this.appDesignData = res;
+        });
+      }
     })
   }  
 

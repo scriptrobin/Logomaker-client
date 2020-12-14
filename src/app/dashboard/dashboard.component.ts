@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   showListIconStyle:boolean = false;
   selectedIconIndex: any;
   favLogos = [];
+  allDesigns:any;
   constructor(private router: Router, private userService: UserService, private http: HttpClient,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
@@ -72,6 +73,13 @@ export class DashboardComponent implements OnInit {
     this.userService.getUserProfile().subscribe((res)=> {
       this.userProfile = res["user"];
       this.loadThumbCanvas(); 
+      this.getAllDesigns();
+    });
+  }
+
+  getAllDesigns() {
+    this.http.get(environment.apiBaseUrl+'/getAllDesigns').subscribe((res)=>{
+      this.allDesigns = res;
     });
   }
 
