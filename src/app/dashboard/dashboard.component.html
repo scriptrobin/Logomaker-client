@@ -22,14 +22,15 @@
               <i class="material-icons">favorite</i>
               <p>My Favorties</p>
             </a>
-          </li>
-       <!--  <li class="nav-item " (click)="changeTab('userProfile')" [ngClass]="{'active': selectedTab=='userProfile'}">
+        </li>
+
+        <li class="nav-item " (click)="changeTab('contactsupport')" [ngClass]="{'active': selectedTab=='contactsupport'}">
           <a class="nav-link">
-            <i class="material-icons">person</i>
-            <p>User Profile</p>
+            <i class="material-icons">contactsupport</i>
+            <p>Contact Us</p>
           </a>
         </li>
-        <li class="nav-item" (click)="changeTab('Upgrade')" [ngClass]="{'active': selectedTab=='Upgrade'}">
+        <!-- <li class="nav-item" (click)="changeTab('Upgrade')" [ngClass]="{'active': selectedTab=='Upgrade'}">
           <a class="nav-link">
             <i class="material-icons">unarchive</i>
             <p>Upgrade to PRO</p>
@@ -54,16 +55,18 @@
           <span class="navbar-toggler-icon icon-bar"></span>
         </button>
 
-        <!-- <div class="collapse navbar-collapse justify-content-end">
-          <button class="btn btn-default btn-sm" (click)="userLogout()" style="border-radius: 3px;"><i class="fa fa-power-off" style="    font-size: 12px;margin-right: 5px;"></i><span class="glyphicon glyphicon-log-out"></s]pan>Log out</button>
-        </div> -->
+        <div class="collapse navbar-collapse justify-content-end">
+          <button class="btn btn-default btn-sm" (click)="goToHome()" style="border-radius: 3px;"><i class="fa fa-arrow-left" style="    font-size: 12px;margin-right: 5px;"></i><span class="glyphicon glyphicon-log-out"></span>Back</button>
+        </div>
       </div>
     </nav>
     
     <!-- End Navbar -->
-    <div class="content" [hidden]="selectedTab=='userProfile' || selectedTab=='Upgrade' || selectedTab=='favorite'">
+    <div class="content" [hidden]="selectedTab=='userProfile' || selectedTab=='Upgrade' || selectedTab=='favorite' || selectedTab=='contactsupport'">
       <div class="container-fluid">
         <div class="row">
+          <div class="col-md-12">
+          </div> 
           <div class="col-md-12" style="background: #e6e6e6">
             <form>
               <div class="row">
@@ -285,6 +288,52 @@
           <div class="col-md-12">
             <div>
               <span style="font-size: 50px;font-family: 'Do Hyeon'">WE ARE LAUNCHING SOON..!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content" *ngIf="selectedTab=='contactsupport'">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Need a help?</h4>
+                <p class="card-category">Don't worry just contact us</p>
+              </div>
+              <div class="card-body">
+                <form method="POST" (submit)="sendEmail()"> 
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Fullname</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="Fullname" [ngModelOptions]="{standalone: true}" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Email</label>
+                        <input type="text" class="form-control" id="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Message</label>
+                        <textarea rows="6" class="form-control" id="message" [(ngModel)]="message" [ngModelOptions]="{standalone: true}" required></textarea>
+                      </div>
+                    </div>
+                  </div> 
+                  <button type="submit" class="btn btn-primary pull-right" *ngIf="!showLoader">Send message</button>
+                  <button  class="btn btn-primary pull-right"[disabled]=true style="width:144px;" *ngIf="showLoader"><span><i class="fas fa-spinner fa-spin"></i></span></button>
+                  <div class="clearfix"></div>
+                  <div class="alert alert-success" role="alert" *ngIf="showAlert" style="height: 36px;padding: 5px;"> 
+                    Thanks for using our app!
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

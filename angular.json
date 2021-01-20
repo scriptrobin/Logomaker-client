@@ -25,7 +25,8 @@
             ],
             "allowedCommonJsDependencies": [
               "fabric",
-              "jquery"
+              "jquery",
+              "emailjs-com"
             ],
             "styles": [
               "src/styles.css",

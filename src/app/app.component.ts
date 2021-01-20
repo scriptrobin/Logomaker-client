@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Logomaker-client';
+  onActivate(event) {
+    window.scroll(0,0);
+  }
 }

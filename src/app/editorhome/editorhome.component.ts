@@ -1,4 +1,3 @@
-
 import {
   Component,
   OnInit,
@@ -650,7 +649,7 @@ export class EditorhomeComponent implements OnInit {
   getSearchIcons(type) { 
     var headers = {
       headers: new HttpHeaders({
-        'authorization': 'Bearer '+environment.apiIconKey,  
+        'authorization': 'Bearer '+environment.apiIconKey_editor,  
         'Content-Type':'text/plain; charset=utf-8',
         'noAuth': "true"
       })
@@ -709,13 +708,13 @@ export class EditorhomeComponent implements OnInit {
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
         'authorization': 'Bearer '+environment.apiIconKey,
-        'Access-Control-Allow-Origin': 'http://localhost:4200' ,
+        'Access-Control-Allow-Origin': '*' ,
         "Access-Control-Allow-Methods":"GET, POST",
         'noAuth': "true"
       }),
       responseType: 'text'
    }
-    var iconSvgUrl = "https://cors-anywhere.herokuapp.com/"+data.download_url; 
+    var iconSvgUrl = "https://try.readme.io/"+data.download_url;
     var __self = this;
     this.http.get<any>(iconSvgUrl, HTTPOptions).subscribe((response)=> {
       fabric.loadSVGFromString(response, function(objects, options) {

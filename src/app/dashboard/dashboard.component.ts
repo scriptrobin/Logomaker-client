@@ -1,4 +1,4 @@
-import { Component, OnInit,   ViewChild} from '@angular/core';  
+import { Component, OnInit,   ViewChild, AfterViewInit} from '@angular/core';  
 import { DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {UserService} from '../shared/user.service';
@@ -6,6 +6,7 @@ import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { fabric } from 'fabric';
 import FontFaceObserver from 'fontfaceobserver';
 import {environment} from '../../environments/environment';
+import emailjs, { init } from 'emailjs-com';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -32,10 +33,15 @@ export class DashboardComponent implements OnInit {
   selectedIconIndex: any;
   favLogos = [];
   allDesigns:any;
+  Fullname;
+  message;
+  email;
+  showAlert=false; 
   constructor(private router: Router, private userService: UserService, private http: HttpClient,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.getUserProfile(); 
+    // this.getUserProfile(); 
+    init("user_mGmCbS0Q2MsY74b1MkNGP");
     this.getGoogleFonts();
     /* this.getIconCategory(); */
     this.getIconsStyles();
@@ -54,20 +60,35 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('selectedLogo', JSON.stringify(_destination));
     const { protocol, host } = window.location;
     if(environment.production) {
-      const url = `${protocol}//${host}/Logomaker-client/editorhome`;
+      const url = `${protocol}//${host}/#/editorhome`;
       window.open(url,'_blank');
     }
     else {
-      const url = `${protocol}//${host}/editorhome`;
+      const url = `${protocol}//${host}/#/editorhome`;
       window.open(url,'_blank');
     }
     // this.router.navigate(['/editorhome']).then(result => {  window.open(window.location.href, '_blank'); });
   }
 
+  ngAfterViewInit() {
+      setTimeout(()=>{
+      try{
+        // (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
+      }catch(e){
+        console.error(e);
+      }
+    },2000);
+  }  
+  
   userLogout() {
     this.userService.deleteToken();
     this.router.navigateByUrl('/home');
   }
+
+  goToHome() {
+    this.router.navigateByUrl('/home');
+  }
+  
 
   getUserProfile() {
     this.userService.getUserProfile().subscribe((res)=> {
@@ -81,6 +102,28 @@ export class DashboardComponent implements OnInit {
     this.http.get(environment.apiBaseUrl+'/getAllDesigns').subscribe((res)=>{
       this.allDesigns = res;
     });
+  }
+
+  sendEmail() { 
+    const templateParams = {
+      from_name: this.Fullname,
+      to_name: this.email,
+      message: this.message,
+      reply_to: this.email
+    };
+    this.showAlert = false;
+    this.showLoader = true;
+    emailjs.send('service_58uagrn', 'template_cr340f5', templateParams)
+      .then((response) => {
+        this.showAlert = true;
+        this.showLoader = false;
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 2000);
+        console.log('SUCCESS!', response.status, response.text);
+      }, (err) => {
+        console.log('FAILED...', err);
+      });
   }
 
   changeTab(tab) {
@@ -174,7 +217,9 @@ export class DashboardComponent implements OnInit {
         if(response.icons[i].raster_sizes[5]) {
           for(var j=0;j<response.icons[i].raster_sizes[5].formats.length;j++) { 
             if(response.icons[i].raster_sizes[5].formats[j].preview_url) {
-              this.svgUrl[i].preview_url = response.icons[i].raster_sizes[5].formats[j].preview_url;
+              if(this.svgUrl[i]) {
+                this.svgUrl[i].preview_url = response.icons[i].raster_sizes[5].formats[j].preview_url;
+              }
             }
           } 
         }
@@ -264,13 +309,16 @@ export class DashboardComponent implements OnInit {
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
         'authorization': 'Bearer '+environment.apiIconKey,
-        'Access-Control-Allow-Origin': 'http://localhost:4200' ,
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*' ,
         "Access-Control-Allow-Methods":"GET, POST",
         'noAuth': "true"
       }),
+      withCredentials: false,
       responseType: 'text'
    }
-    var iconSvgUrl = "https://cors-anywhere.herokuapp.com/"+data.download_url; 
+    var iconSvgUrl = "https://try.readme.io/"+data.download_url; 
+    // var iconSvgUrl = data.download_url; 
     var __self = this;
     this.http.get<any>(iconSvgUrl, HTTPOptions).subscribe((response)=> {
       fabric.loadSVGFromString(response, function(objects, options) {

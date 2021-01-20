@@ -12,11 +12,14 @@ import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import {AuthGuard} from './auth/auth.guard';
 import {AuthInterceptor} from './auth/auth.interceptor';
-
+import { AdsenseModule } from 'ng2-adsense';
+import { ContactComponent } from './contact/contact.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { TermsComponent } from './terms/terms.component';
 @NgModule({
   declarations: [
     AppComponent, 
-    LoginComponentComponent, HomeComponentComponent, DashboardComponent, EditorhomeComponent,
+    LoginComponentComponent, HomeComponentComponent, DashboardComponent, EditorhomeComponent, ContactComponent, PrivacyComponent, TermsComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,8 @@ import {AuthInterceptor} from './auth/auth.interceptor';
     FormsModule,
     ColorPickerModule,
     HttpClientModule,
-    DropdownModule.forRoot()
+    DropdownModule.forRoot(),
+    AdsenseModule.forRoot({adClient: 'ca-pub-1805027111363232'})
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap'); 
+h2{
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px !important;
+    background: -webkit-linear-gradient(53deg, rgba(78, 80, 244, 1) 0%, rgba(89, 75, 246, 1) 14.000000000000002%, rgba(105, 71, 249, 1) 49%, rgba(152, 51, 253, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+}
+
+h1{
+    font-family: 'Oswald', sans-serif; 
+}
+
+p{
+    font-family: 'Roboto', sans-serif;
+    margin-left: 10px;
+}

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiBaseUrl: "http://localhost:3080/api",
-  apiIconKey: 'iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG'
+  apiIconKey: 'iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG',
+  apiIconKey_editor: 'iUFwBIBD9G71OqGMW2yFgW2O0svxgHuEZrvBzmJ5vcA1U1adNbfUqxHwTVrD0inG'
 };
 
 /*

@@ -56,7 +56,7 @@
           <li class="wonb" (click)="exportImage('png')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>PNG</li>
           <li class="wonb" (click)="exportImage('jpeg')"><label style="margin-right: 24px;"><svg width="10" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 1a1 1 0 00-2 0v5.586L1.707 4.293A1 1 0 00.293 5.707l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L6 6.586V1zM1 12a1 1 0 100 2h8a1 1 0 100-2H1z" fill="#fff"></path></svg></label>JPEG</li>
         </ul>
-    </div>
+      </div>
     </div>
   </div>
 </div>
@@ -482,12 +482,12 @@
               <span>Icons</span>
             </a> 
           </li>
-          <li>
+         <!--  <li>
             <a>
               <i class="fa fa-tint"></i>
               <span>Palette</span>
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
       <!-- sidebar-menu  -->
@@ -503,9 +503,9 @@
       <a (click)="zoomCanvas('out')" #zoomOut>
         <svg width="10" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h8" stroke="white" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </a>
-      <a>
+      <!-- <a>
         <i class="fa fa-power-off"></i>
-      </a>
+      </a> -->
     </div>
   </nav>
   <div class="leftBlock-list" id='slide' [ngClass]='{"leftBlockactive" : leftBlockTransit, "leftBlock-disable": !leftBlockTransit}'>
