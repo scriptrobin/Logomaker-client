@@ -16,6 +16,7 @@ import { AdsenseModule } from 'ng2-adsense';
 import { ContactComponent } from './contact/contact.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { TermsComponent } from './terms/terms.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent, 
@@ -28,7 +29,8 @@ import { TermsComponent } from './terms/terms.component';
     ColorPickerModule,
     HttpClientModule,
     DropdownModule.forRoot(),
-    AdsenseModule.forRoot({adClient: 'ca-pub-1805027111363232'})
+    AdsenseModule.forRoot({adClient: 'ca-pub-1805027111363232'}),
+    NgbModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

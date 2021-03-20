@@ -1,71 +1,69 @@
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand">Logo Maker</a>
-</nav>
-<div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        
-      </div>
-      <div class="login-box">
-        <div class="lb-header">
-          <a (click)='showLoginorRegister("login")' [ngClass]="{'active': selectedTab == 'login'}" id="login-box-link">Login</a>
-          <a  (click)='showLoginorRegister("register")' [ngClass]="{'active': selectedTab == 'register'}" id="signup-box-link" >Register</a>
+<div class="login-body">
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          
         </div>
-        <!-- <div class="social-login">
-          <a href="#" class="rounded-pill">
-            <i class="fa fa-facebook fa-lg"></i>
-            Login with facebook
-          </a>
-          <a href="#" class="rounded-pill">
-            <i class="fa fa-google-plus fa-lg"></i>
-            Login with Google
-          </a>
-        </div> -->
-        <form *ngIf="selectedTab == 'login'" class="email-login" #signInForm="ngForm" (ngSubmit)="signInForm.valid && doLogin()">
-          <div class="u-form-group">
-            <input type="email" placeholder="Email" #email="ngModel" [(ngModel)]="model.email" [ngModelOptions]="{standalone: true}" required/>
+        <div class="login-box">
+          <div class="lb-header">
+            <a (click)='showLoginorRegister("login")' [ngClass]="{'active': selectedTab == 'login'}" id="login-box-link">Login</a>
+            <a  (click)='showLoginorRegister("register")' [ngClass]="{'active': selectedTab == 'register'}" id="signup-box-link" >Register</a>
           </div>
-          <div class="u-form-group">
-            <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="model.password" [ngModelOptions]="{standalone: true}" required/>
-          </div>
-          <div class="u-form-group"> 
-            <input type="submit" class="btn btn-primary rounded-pill" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid' value="Login" style="width: 146px;">
-            <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
-            
-          </div>
-          <div class="u-form-group">
-            <a href="#" class="forgot-password">Forgot password?</a>
-          </div>
-          <div class="alert alert-danger" role="alert" *ngIf="validMail==false" style="height: 36px;padding: 5px;"> 
-            {{aletMsg}}
-          </div>
-          <div class="alert alert-success" role="alert" *ngIf="showLogIn" style="height: 36px;padding: 5px;"> 
-            Login sucessfully
-          </div>
-        </form>
-        <form class="email-signup" *ngIf="selectedTab == 'register'" #signUpForm="ngForm" (ngSubmit)="signUpForm.valid && onRegister(signUpForm)"> 
-          <div class="u-form-group">
-            <input type="text" placeholder="Fullname" #fullName="ngModel" [(ngModel)]="userService.SelectedUser.fullName" [ngModelOptions]="{standalone: true}" required/>  
-          </div>
-          <div class="u-form-group"> 
-            <input type="email" placeholder="Email" #email="ngModel" name="email" [(ngModel)]="userService.SelectedUser.email" [ngModelOptions]="{standalone: true}" required/>
-          </div>
-          <div class="u-form-group">
-            <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="userService.SelectedUser.password" [ngModelOptions]="{standalone: true}" required/> 
-          </div>
-          <div class="u-form-group"> 
-            <input type="submit" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid || !fullName.valid' class="btn btn-primary rounded-pill" value="Register" style="width: 146px;">
-            <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
-          </div>
-          <div class="alert alert-danger" role="alert" *ngIf="validMail==false" style="height: 36px;padding: 5px;"> 
-            {{aletMsg}}
-          </div>
-          <div class="alert alert-success" role="alert" *ngIf="showRegister" style="height: 36px;padding: 5px;"> 
-            Register sucessfully...!
-          </div>
-        </form>
-      </div>  
-    </div>
-    
+          <!-- <div class="social-login">
+            <a href="#" class="rounded-pill">
+              <i class="fa fa-facebook fa-lg"></i>
+              Login with facebook
+            </a>
+            <a href="#" class="rounded-pill">
+              <i class="fa fa-google-plus fa-lg"></i>
+              Login with Google
+            </a>
+          </div> -->
+          <form *ngIf="selectedTab == 'login'" class="email-login" #signInForm="ngForm" (ngSubmit)="signInForm.valid && doLogin()">
+            <div class="u-form-group">
+              <input type="email" placeholder="Email" #email="ngModel" [(ngModel)]="model.email" [ngModelOptions]="{standalone: true}" required/>
+            </div>
+            <div class="u-form-group">
+              <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="model.password" [ngModelOptions]="{standalone: true}" required/>
+            </div>
+            <div class="u-form-group"> 
+              <input type="submit" class="btn btn-primary rounded-pill" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid' value="Login" style="width: 146px;">
+              <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
+              
+            </div>
+            <div class="u-form-group">
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="validMail==false" style="height: 36px;padding: 5px;"> 
+              {{aletMsg}}
+            </div>
+            <div class="alert alert-success" role="alert" *ngIf="showLogIn" style="height: 36px;padding: 5px;"> 
+              Login sucessfully
+            </div>
+          </form>
+          <form class="email-signup" *ngIf="selectedTab == 'register'" #signUpForm="ngForm" (ngSubmit)="signUpForm.valid && onRegister(signUpForm)"> 
+            <div class="u-form-group">
+              <input type="text" placeholder="Fullname" #fullName="ngModel" [(ngModel)]="userService.SelectedUser.fullName" [ngModelOptions]="{standalone: true}" required/>  
+            </div>
+            <div class="u-form-group"> 
+              <input type="email" placeholder="Email" #email="ngModel" name="email" [(ngModel)]="userService.SelectedUser.email" [ngModelOptions]="{standalone: true}" required/>
+            </div>
+            <div class="u-form-group">
+              <input type="password" placeholder="Password" #password="ngModel" [(ngModel)]="userService.SelectedUser.password" [ngModelOptions]="{standalone: true}" required/> 
+            </div>
+            <div class="u-form-group"> 
+              <input type="submit" *ngIf='!showLoaderLogin' [disabled]='!password.valid || !email.valid || !fullName.valid' class="btn btn-primary rounded-pill" value="Register" style="width: 146px;">
+              <button [disabled]='true' *ngIf='showLoaderLogin' class="btn btn-primary rounded-pill" style="width: 146px;height: 37px;padding: 0px;background-color: #007bff;border-color: #007bff;"><span><i class="fas fa-spinner fa-spin"></i></span></button>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="validMail==false" style="height: 36px;padding: 5px;"> 
+              {{aletMsg}}
+            </div>
+            <div class="alert alert-success" role="alert" *ngIf="showRegister" style="height: 36px;padding: 5px;"> 
+              Register sucessfully...!
+            </div>
+          </form>
+        </div>  
+      </div>
+      
   </div>
-  
+</div>

@@ -3,3 +3,7 @@
 @import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import url('https://fonts.googleapis.com/css?family=Do Hyeon&display=swap');
+.no-padding{
+    padding: 0px !important;
+}

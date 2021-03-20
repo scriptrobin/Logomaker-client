@@ -11,7 +11,7 @@ import { fabric } from 'fabric';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { ColorPicker, ColorPickerEventArgs } from '@syncfusion/ej2-inputs';
 import { DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute,Params } from '@angular/router';
 import {UserService} from '../shared/user.service';
 import {commonService} from '../shared/editor.service';
 import FontFaceObserver from 'fontfaceobserver'
@@ -23,7 +23,8 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./editorhome.component.css']
 })
 export class EditorhomeComponent implements OnInit {
-  appDesignData: any;
+  isLoggedIn:boolean = this.userService.isLoggedIn();;
+  appDesignData: object={};
   userProfile;
   activeObj;
   userText;
@@ -143,8 +144,7 @@ export class EditorhomeComponent implements OnInit {
   selectedWeight = "10";
   selectedFont = "Georgia";
   selectedLogo = '';
-  constructor(private http: HttpClient, private router: Router, private userService: UserService,private commonService: commonService, private renderer:Renderer2, private sanitizer: DomSanitizer) {
-    
+  constructor(private http: HttpClient, private router: Router, private userService: UserService,private commonService: commonService, private renderer:Renderer2, private sanitizer: DomSanitizer,private activatedRoute: ActivatedRoute) { 
   }
   private canvas: any;
   ngOnInit(): void {
@@ -189,6 +189,7 @@ export class EditorhomeComponent implements OnInit {
 
     this.canvas = new fabric.Canvas('canvas', {
       selection: true,
+      preserveObjectStacking: true,
       selectionBorderColor: 'blue',
       backgroundColor: 'rgb(255,255,255)',
       width: 430,
@@ -211,10 +212,12 @@ export class EditorhomeComponent implements OnInit {
     this.selectedLogo = JSON.parse(localStorage.getItem('selectedLogo'));
     localStorage.removeItem("selectedLogo");
     // this.getIconfinderIcons();
-    var _font = this.selectedLogo['fontFamily'];
-    var _font_1 = this.selectedLogo['fontFamily_1'];
-    __self.applyFontStyle({family:_font}, '3', 'direct', null);
-    __self.applyFontStyle({family:_font_1}, '3', 'direct', null);
+    if(this.selectedLogo) {
+      var _font = this.selectedLogo['fontFamily'];
+      var _font_1 = this.selectedLogo['fontFamily_1'];
+      __self.applyFontStyle({family:_font}, '3', 'direct', null);
+      __self.applyFontStyle({family:_font_1}, '3', 'direct', null);
+    }
   }
 
   @ViewChild('wsContainer') wsContainer; 
@@ -258,9 +261,11 @@ export class EditorhomeComponent implements OnInit {
   }
 
   getUserProfile() {
-    this.userService.getUserProfile().subscribe((res)=> {
-      this.userProfile = res["user"];
-    });
+    if(this.isLoggedIn) {
+      this.userService.getUserProfile().subscribe((res)=> {
+        this.userProfile = res["user"];
+      });
+    }
   }
 
   userLogout() {
@@ -366,12 +371,15 @@ export class EditorhomeComponent implements OnInit {
       this.duplicateObject();
     }
     else if(type == 'forward') {
-      this.canvas.bringToFront(this.activeObj);
+      // this.canvas.bringToFront(this.activeObj);
+      this.activeObj.bringToFront();
+      this.canvas.setActiveObject(this.activeObj);
     }
-    else if(type == 'backward') {
-      this.canvas.sendToBackD(this.activeObj);
+    else if(type == 'backward') { 
+      this.activeObj.sendToBack();
+      this.canvas.setActiveObject(this.activeObj);
     } 
-    
+    this.canvas.renderAll();
     
   }
 
@@ -766,17 +774,35 @@ export class EditorhomeComponent implements OnInit {
     this.http.get('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKL4h8YmvTbRg9qLjh7yOwBKfB1srshJI').subscribe(async(responseData: any) => {
       this.fontFamily = responseData.items;
       await this.loadDynamicLogos();
-      if(this.selectedLogo) {
-        var canvasFile = new Blob([JSON.stringify(this.canvas.toJSON())], {type : "application/octet-stream"});
-        var fd = new FormData();
-        fd.append('upl', canvasFile, 'editor.txt');
-        this.http.post(environment.apiBaseUrl+'/create', fd).subscribe((res)=> {
-          this.appDesignData = res;
-        });
-      }
+      if(this.isLoggedIn) {
+        this.activatedRoute.params.subscribe((params: Params) => {
+          this.appDesignData["editorId"] = params['id'];
+          if(!this.selectedLogo) {
+            this.loadFromJSON();
+          }
+      });
+      } 
     })
   }  
 
+  loadFromJSON() {
+    this.http.get(environment.apiBaseUrl+'/getDesign?id='+this.appDesignData["editorId"]).subscribe((res:any)=> { 
+      this.canvas.loadFromJSON(res, ()=> {
+        this.canvas.renderAll();
+      });
+    });
+  }
+
+  saveEditor() {
+    var canvasFile = new Blob([JSON.stringify(this.canvas.toJSON(['jsonProperty', 'name']))], {type : "application/octet-stream"});
+    var fd = new FormData();
+    fd.append('upl', canvasFile, 'editor.txt');
+    fd.append('editorid', this.appDesignData["editorId"]);
+    this.http.post(environment.apiBaseUrl+'/saveDesigns',fd).subscribe((res)=> { 
+      console.log(res);           
+    });
+  }
+ 
   dataURLtoBlob(dataurl) {
     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
