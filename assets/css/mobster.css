@@ -157,6 +157,11 @@ hr {
   background-color: var(--indigo) !important;
 }
 
+.bg-favorite {
+  background-color: #f210ac !important;
+}
+
+
 .bg-gray {
   background-color: #6B6872 !important;
 }
@@ -2132,7 +2137,7 @@ hr {
 }
 
 .page-hero-section h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
 }
 
 .page-hero-section .hero-caption {
